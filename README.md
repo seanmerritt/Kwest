@@ -7,5 +7,7 @@ Sean is a polymath. While he is finishing up is Masters in Organizational Psycho
 
 * Erik Birch
 * Finn Carver 
+
+Ello my name is Finn I am 19. I am from tucson AZ but i am curently in rexburg. I am a software dev major andi am on my 4th semester. I want to code websites in the future. in my free time i play videogames or watch anime.
 * Zach Rochette
 * Kylie Bagley
