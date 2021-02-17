@@ -8,8 +8,8 @@ Sean is a polymath. While he is finishing up is Masters in Organizational Psycho
 * Erik Birch
 * Finn Carver 
 
-Ello my name is Finn I am 19. I am from tucson AZ but i am curently in rexburg. I am a software dev major andi am on my 4th semester. I want to code websites in the future. in my free time i play videogames or watch anime.
+
 * Zach Rochette
 
-Hello, my name is Zach I am 24 and I am a software engineering major. I am from Billings Montana but now live in Rigby Idaho. This is my 6th semester but only my 3rd in software engineering. I enjoy coding and plan on doing something with it in my future career. I also really like working on websites both front end and back end. In my free time I like to play video games, play guitar, and learn how to use various programs like photoshop and blender. 
+
 * Kylie Bagley
