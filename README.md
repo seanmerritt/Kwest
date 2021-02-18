@@ -11,5 +11,6 @@ Sean is a polymath. While he is finishing up is Masters in Organizational Psycho
 
 * Zach Rochette
 
+My name is Zach and I am 24 years old. I am a software engineering major and this is my 3rd semester in this field. I am not entirely sure what I would like to do for my career but I do enjoy working with websited and cybersecurity. In my free time I like to play guitar, play video games, and mess with programs such as blender, photoshop, unity, exedra. 
 
 * Kylie Bagley
