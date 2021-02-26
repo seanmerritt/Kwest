@@ -2,7 +2,7 @@
 
 Technologies:
 * Python
-** Arcade package
+* Arcade package
 
 Description:
 Kwest is an side-scroller platform adventure game. You are an explorer seeking the city Eldorado. You are not alone, there are several groups who seek the city for themselves and will do anything to stop you. You will fight, jump, run, and solve on your epic quest!
