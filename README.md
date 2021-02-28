@@ -10,6 +10,22 @@ Kwest is an side-scroller platform adventure game. You are an explorer seeking t
 Features:
 Blocks, latters, puzzles(not quite sure what these will be), HP, side controls, shooting, enemies 
 
+Notes from last meeting:
+What we know for certain
+·Side scrolling
+·Win: reach the end
+·Lose: health drops to zero
+Plans
+·Step 1: get it working make sure we can bring something up without errors
+· Step 2: program everything
+  o  make sure our inputs do what we want and interaction is possible
+  o  score, health, music/sound, attacking
+·Step 3: design the level
+  o  figure out how to set up things up, what challenges to involve
+  o  where to place enemies, objects, platforms, puzzle pieces (keys, buttons/switches)
+·Step 4: make it pretty
+  o  Extra, Add anything else we can think of
+
 Team Members:
 * Sean Merritt
 
