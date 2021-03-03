@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="70" tileheight="70" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="../../../../../tiles.tsx"/>
+ <layer id="1" name="Platforms" width="25" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBdQEWnTAAN8MBBs=
+  </data>
+ </layer>
+ <layer id="2" name="Coins" width="25" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSjADrQH2gE0ANp0wPQAAM1eBF8=
+  </data>
+ </layer>
+ <layer id="3" name="Enemies" width="25" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBbiADoni9AIAOeQAWQ==
+  </data>
+ </layer>
+</map>

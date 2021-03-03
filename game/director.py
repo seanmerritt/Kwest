@@ -94,8 +94,8 @@ class MyGame(arcade.Window):
         coins_layer_name = 'Coins'
 
         # Map name
-        #map_name = f"C:/Users/seanm/OneDrive/Documents/BYU/Kwest/game/testing map.tmx"
-        map_name = f":resources:tmx_maps/map_with_ladders.tmx"
+        map_name = f"C:/Users/seanm/OneDrive/Documents/BYU/Kwest/game/untitled.tmx"
+        #map_name = f":resources:tmx_maps/map_with_ladders.tmx"
         # Read in the tiled map
         my_map = arcade.tilemap.read_tmx(map_name)
 
@@ -105,8 +105,7 @@ class MyGame(arcade.Window):
         # -- Platforms
         self.wall_list = arcade.tilemap.process_layer(my_map,
                                                       platforms_layer_name,
-                                                      CONSTANTS.TILE_SCALING,
-                                                      use_spatial_hash=True)
+                                                      CONSTANTS.TILE_SCALING)
 
         # -- Moving Platforms
        # moving_platforms_list = arcade.tilemap.process_layer(my_map, moving_platforms_layer_name, CONSTANTS.TILE_SCALING)
@@ -114,45 +113,16 @@ class MyGame(arcade.Window):
         #    self.wall_list.append(sprite)
 
         # -- Background objects
-        self.background_list = arcade.tilemap.process_layer(my_map, "Background", CONSTANTS.TILE_SCALING)
+        #self.background_list = arcade.tilemap.process_layer(my_map, "Background", CONSTANTS.TILE_SCALING)
 
         # -- Background objects
-        self.ladder_list = arcade.tilemap.process_layer(my_map, "Ladders", CONSTANTS.TILE_SCALING, use_spatial_hash=True)
+        #self.ladder_list = arcade.tilemap.process_layer(my_map, "Ladders", CONSTANTS.TILE_SCALING, use_spatial_hash=True)
 
         # -- Coins
         self.coin_list = arcade.tilemap.process_layer(my_map, coins_layer_name,
                                                       CONSTANTS.TILE_SCALING,
-                                                      use_spatial_hash=True)
-        for i in range(CONSTANTS.NUMBER_OF_ENEMIES):
-
-            # Create the coin instance
-            # Coin image from kenney.nl
-            enemy = SpriteWithHealth(":resources:images/enemies/wormGreen.png", CONSTANTS.SPRITE_SCALING, max_health=5)
-
-            # --- IMPORTANT PART ---
-
-            # Boolean variable if we successfully placed the coin
-            enemy_placed_successfully = False
-
-            # Keep trying until success
-            while not enemy_placed_successfully:
-                # Position the coin
-                enemy.center_x = random.randrange(CONSTANTS.SCREEN_WIDTH)
-                enemy.center_y = random.randrange(CONSTANTS.SCREEN_HEIGHT)
-
-                # See if the coin is hitting a wall
-                wall_hit_list = arcade.check_for_collision_with_list(enemy, self.wall_list)
-
-                # See if the coin is hitting another coin
-                enemy_hit_list = arcade.check_for_collision_with_list(enemy, self.enemy_list)
-
-                if len(wall_hit_list) == 0 and len(enemy_hit_list) == 0:
-                    # It is!
-                    enemy_placed_successfully = True
-
-            # Add the coin to the lists
-            self.enemy_list.append(enemy)
-        # --- Other stuff
+                                                     use_spatial_hash=True)
+        self.enemy_list = arcade.tilemap.process_layer(my_map,"Enemies", CONSTANTS.TILE_SCALING)
         # Set the background color
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
@@ -160,8 +130,8 @@ class MyGame(arcade.Window):
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
-                                                             gravity_constant= CONSTANTS.GRAVITY,
-                                                             ladders=self.ladder_list)
+                                                             gravity_constant= CONSTANTS.GRAVITY #, ladders=self.ladder_list
+                                                             )
 
 
     def on_draw(self):
@@ -171,7 +141,7 @@ class MyGame(arcade.Window):
         # Draw our sprites
         self.wall_list.draw()
         self.background_list.draw()
-        self.ladder_list.draw()
+        #self.ladder_list.draw()
         self.coin_list.draw()
         self.player_list.draw()
         self.player_sprite.draw_health_bar()
@@ -296,11 +266,7 @@ class MyGame(arcade.Window):
         for coin in coin_hit_list:
 
             # Figure out how many points this coin is worth
-            if 'Points' not in coin.properties:
-                print("Warning, collected a coin without a Points property.")
-            else:
-                points = int(coin.properties['Points'])
-                self.score += points
+            self.score += 1
 
             # Remove the coin
             coin.remove_from_sprite_lists()
