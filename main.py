@@ -6,6 +6,7 @@ from game.director import MyGame
 
 def main():
     """ Main method """
+    
     window = MyGame()
     window.setup()
     arcade.run()

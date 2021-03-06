@@ -19,6 +19,7 @@ class Player(arcade.Sprite):
         # Add extra attributes for health
         self.max_health = max_health
         self.cur_health = max_health
+        self.__death = False
 
         # Default to face-right
         self.character_face_direction = CONSTANTS.RIGHT_FACING
@@ -140,3 +141,10 @@ class Player(arcade.Sprite):
                                      width=health_width,
                                      height=CONSTANTS.HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
+
+    def check_life(self):
+        if self.cur_health < 1:
+            self.__death = True
+
+    def get_death(self):
+        return self.__death

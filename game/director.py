@@ -4,6 +4,8 @@ import os
 from game.SpriteWithHealth import SpriteWithHealth
 from game.player import Player
 import random
+import math
+
 
 class MyGame(arcade.Window):
     """
@@ -36,6 +38,7 @@ class MyGame(arcade.Window):
         self.wall_list = None
         self.key_list = None
         self.enemy_list = None
+        self.bullet_list= None
         self.game_over = False
         #self.moving_platforms_list = None
         
@@ -48,7 +51,7 @@ class MyGame(arcade.Window):
         # Used to keep track of our scrolling
         self.view_bottom = 0
         self.view_left = 0
-
+        self.frame_count = 0
         self.end_of_map = 0
 
         # Keep track of the score
@@ -75,6 +78,7 @@ class MyGame(arcade.Window):
         self.wall_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
+        self.bullet_list = arcade.SpriteList()
        # self.moving_platforms_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
@@ -147,6 +151,7 @@ class MyGame(arcade.Window):
         self.player_sprite.draw_health_bar()
         self.player_sprite.draw_health_number()
         self.enemy_list.draw()
+        self.bullet_list.draw()
         
         # Draw our score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
@@ -225,6 +230,78 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
+        self.frame_count += 1
+        for enemy in self.enemy_list:
+
+            # First, calculate the angle to the player. We could do this
+            # only when the bullet fires, but in this case we will rotate
+            # the enemy to face the player each frame, so we'll do this
+            # each frame.
+
+            # Position the start at the enemy's current location
+            start_x = enemy.center_x
+            start_y = enemy.center_y
+
+            # Get the destination location for the bullet
+            dest_x = self.player_sprite.center_x
+            dest_y = self.player_sprite.center_y
+
+            # Do math to calculate how to get the bullet to the destination.
+            # Calculation the angle in radians between the start points
+            # and end points. This is the angle the bullet will travel.
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            # Set the enemy to face the player.
+            
+
+            # Shoot every 60 frames change of shooting each frame
+            if self.frame_count % 120 == 0:
+                bullet = arcade.Sprite(":resources:images/space_shooter/laserBlue01.png")
+                bullet.center_x = start_x
+                bullet.center_y = start_y
+
+                # Angle the bullet sprite
+                bullet.angle = math.degrees(angle)
+
+                # Taking into account the angle, calculate our change_x
+                # and change_y. Velocity is how fast the bullet travels.
+                bullet.change_x = math.cos(angle) * CONSTANTS.BULLET_SPEED
+                bullet.change_y = math.sin(angle) * CONSTANTS.BULLET_SPEED
+
+                self.bullet_list.append(bullet)
+
+        # Get rid of the bullet when it flies off-screen
+        for bullet in self.bullet_list:
+            if bullet.top < 0:
+                bullet.remove_from_sprite_lists()
+
+            # Check this bullet to see if it hit a wall
+            wallhit_list = arcade.check_for_collision_with_list(bullet, self.wall_list)
+
+            # If it did, get rid of the bullet
+            if len(wallhit_list) > 0:
+                bullet.remove_from_sprite_lists()
+
+            playerhit_list = arcade.check_for_collision_with_list(bullet, self.player_list)
+
+            # If it did, get rid of the bullet
+            if len(playerhit_list) > 0:
+                bullet.remove_from_sprite_lists()
+
+            # For every coin we hit, add to the score and remove the coin
+            if arcade.check_for_collision(bullet, self.player_sprite):
+                
+                self.player_sprite.cur_health -= 1
+                
+                
+
+            # If the bullet flies off-screen, remove it.
+            if bullet.bottom > self.width or bullet.top < 0 or bullet.right < 0 or bullet.left > self.width:
+                bullet.remove_from_sprite_lists()
+
+        self.bullet_list.update()
 
         # Update animations
         if self.physics_engine.can_jump():
@@ -333,5 +410,9 @@ class MyGame(arcade.Window):
             self.physics_engine.update()
 
             # See if the player hit a worm. If so, game over.
-            if len(arcade.check_for_collision_with_list(self.player_sprite, self.enemy_list)) > 0:
+            if self.player_sprite.get_death:
                 self.game_over = True
+                self.player_sprite.remove_from_sprite_lists()
+
+            if self.game_over:
+                pass
