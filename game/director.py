@@ -5,6 +5,7 @@ from game.SpriteWithHealth import SpriteWithHealth
 from game.player import Player
 import random
 import math
+from game.enemy import enemies
 
 
 class GameView(arcade.View):
@@ -126,7 +127,7 @@ class GameView(arcade.View):
         self.coin_list = arcade.tilemap.process_layer(my_map, coins_layer_name,
                                                       CONSTANTS.TILE_SCALING,
                                                      use_spatial_hash=True)
-        self.enemy_list = arcade.tilemap.process_layer(my_map,"Enemies", CONSTANTS.TILE_SCALING)
+        self.enemy_list = enemies(arcade.tilemap.process_layer(my_map,"Enemies", CONSTANTS.TILE_SCALING), 10)
         # Set the background color
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
@@ -153,6 +154,8 @@ class GameView(arcade.View):
         self.player_sprite.draw_health_number()
         self.enemy_list.draw()
         self.bullet_list.draw()
+        self.enemy_list.draw_health_bar()
+        
         
         # Draw our score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
@@ -236,46 +239,8 @@ class GameView(arcade.View):
         # Move the player with the physics engine
         self.physics_engine.update()
         self.frame_count += 1
-        for enemy in self.enemy_list:
-
-            # First, calculate the angle to the player. We could do this
-            # only when the bullet fires, but in this case we will rotate
-            # the enemy to face the player each frame, so we'll do this
-            # each frame.
-
-            # Position the start at the enemy's current location
-            start_x = enemy.center_x
-            start_y = enemy.center_y
-
-            # Get the destination location for the bullet
-            dest_x = self.player_sprite.center_x
-            dest_y = self.player_sprite.center_y
-
-            # Do math to calculate how to get the bullet to the destination.
-            # Calculation the angle in radians between the start points
-            # and end points. This is the angle the bullet will travel.
-            x_diff = dest_x - start_x
-            y_diff = dest_y - start_y
-            angle = math.atan2(y_diff, x_diff)
-
-            # Set the enemy to face the player.
-            
-
-            # Shoot every 60 frames change of shooting each frame
-            if self.frame_count % 120 == 0:
-                bullet = arcade.Sprite(":resources:images/space_shooter/laserBlue01.png")
-                bullet.center_x = start_x
-                bullet.center_y = start_y
-
-                # Angle the bullet sprite
-                bullet.angle = math.degrees(angle)
-
-                # Taking into account the angle, calculate our change_x
-                # and change_y. Velocity is how fast the bullet travels.
-                bullet.change_x = math.cos(angle) * CONSTANTS.BULLET_SPEED
-                bullet.change_y = math.sin(angle) * CONSTANTS.BULLET_SPEED
-
-                self.bullet_list.append(bullet)
+        
+        self.enemy_list.shoot(self.player_sprite.center_x, self.player_sprite.center_y, self.frame_count, self.bullet_list)
 
         # Get rid of the bullet when it flies off-screen
         for bullet in self.bullet_list:
@@ -307,6 +272,18 @@ class GameView(arcade.View):
                 bullet.remove_from_sprite_lists()
 
         self.bullet_list.update()
+        
+        ## Enemies losing health. I will edit this later for something that actually makes sense. 
+        """
+        for enemy in self.enemy_list:
+            playerhit_list = arcade.check_for_collision_with_list(enemy, self.player_list)
+
+
+            # For every coin we hit, add to the score and remove the coin
+            if arcade.check_for_collision(enemy, self.player_sprite):
+            
+                enemy.cur_health -= 1
+        """
 
         # Update animations
         if self.physics_engine.can_jump():
