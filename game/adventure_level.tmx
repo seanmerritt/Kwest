@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="1">
+ <tileset firstgid="1" source="../../../../../tiles.tsx"/>
+ <layer id="4" name="Background" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzjERADAIBLBXwdUB/h1iogPXZsieTtIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPKEWHAAAAIA7zoIDAADArwaQGfOc
+  </data>
+ </layer>
+ <layer id="1" name="Platforms" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztnUtSwzAMQHMKoPxmuuIaHIWjcxQaMp0U48iWIzty/d6MNmDLQm+ipAvSadrmQ/gdtAcfvsCHL/Dhi159PFzi0SCeKuRMhUSvPmaeDeLlJt/JKGcqJPCxgo994MMXLfpjfRY+8NGK2nPldpbhI422D5f7w5c2rmedM/bjw34utahHAh/t65EYyUet0NYjgQ98WHG0B3z8RfN3tgAf+PDEnrmRs1aTr2S+xcAHPqzAhy/w4YsjfGhrwoedD20vtWfHwEeZD4uzY+ADH1ZYzPuaZ+Pj/8+PPHt0H5ZzyWqO4QMfR7GnT5oc+Mhjb+8sz9TUJIEPmzM1NUn07GMvlvNIk1MCH/jQsvV/GaXzas+Mw8c2+PAFPnyh7Sc+6qLtZc0zNTVJePBR2jd81KG0Z1azxiI0Z0h48dHi+sBHPvhYGMlHC0b2kcqHjzJq9M1qvuSuK5ltMbz4qJGzNx8fUx8+tt7L0qLPuetG8iHta9E/69gCH/iIUeojldNrSOADHyGpGjX38x5CogcfW3t6DQl84CMEHyv35MMj+PAFPo6fR8wrfFiCjxV84CMEHyu9+rjuw4c9+FjBBz5C8LHixUeJE3zUAx8L+MBHDHws4AMfMfCxgA98xMDHAj7wEaPEh5TLc0jgAx8xpDql74IdaV7FvnO3FlKdJ2HPSD5ago8FDz5SdeLjP+E7qCxnWKpGfLQFHyv4wEcIPlbw4ddH7L2RR3/2mBnVx1GkajwL+0b1sfXO1fA6CtflkKpx5nKNfF/jbZo+r/t6DIkero+Q+Xp57zgkvPjQOrlXPPiYwceCFx9e6jiauQ+pe3X43JuzPidPSG7e1+l3Dn/2Gikf8/N96png5WZPzvqcPCF78vYUEvjAxxaj+PgBwmSxtA==
+  </data>
+ </layer>
+ <layer id="5" name="Ladders" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt17ENgEAMBMEvCnL6rwrSzxFeoZkKLG1yXgsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAvzimD2BzTh/ARo8WPVr0aNGjRY+WZ+9e0zcAfMmf32IXtOjRokeL3QwA77gBadsDLg==
+  </data>
+ </layer>
+ <layer id="2" name="Enemies" width="100" height="100" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJztyzENAAAIA7AJwr8+ZCyQ9m8CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXDPlDwCfLR0tAFk=
+  </data>
+ </layer>
+ <layer id="3" name="Coins" width="100" height="100" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJzt0bkNADAIA0D2IfvPlzbKU9Ck4U5yhSsTAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQHe5hH8yzu33H9w6r3vFKPYBoJMJjB8Csg==
+  </data>
+ </layer>
+</map>

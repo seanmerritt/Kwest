@@ -99,7 +99,7 @@ class GameView(arcade.View):
         coins_layer_name = 'Coins'
 
         # Map name
-        map_name = f"C:/Users/seanm/OneDrive/Documents/BYU/Kwest/game/untitled.tmx"
+        map_name = f"adventure_level.tmx"
         #map_name = f":resources:tmx_maps/map_with_ladders.tmx"
         # Read in the tiled map
         my_map = arcade.tilemap.read_tmx(map_name)
@@ -121,7 +121,7 @@ class GameView(arcade.View):
         self.background_list = arcade.tilemap.process_layer(my_map, "Background", CONSTANTS.TILE_SCALING)
 
         # -- Background objects
-        #self.ladder_list = arcade.tilemap.process_layer(my_map, "Ladders", CONSTANTS.TILE_SCALING, use_spatial_hash=True)
+        self.ladder_list = arcade.tilemap.process_layer(my_map, "Ladders", CONSTANTS.TILE_SCALING, use_spatial_hash=True)
 
         # -- Coins
         self.coin_list = arcade.tilemap.process_layer(my_map, coins_layer_name,
@@ -135,7 +135,7 @@ class GameView(arcade.View):
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
-                                                             gravity_constant= CONSTANTS.GRAVITY #, ladders=self.ladder_list
+                                                             gravity_constant= CONSTANTS.GRAVITY , ladders=self.ladder_list
                                                              )
 
 
@@ -147,14 +147,14 @@ class GameView(arcade.View):
         
         self.background_list.draw()
         self.wall_list.draw()
-        #self.ladder_list.draw()
+        self.ladder_list.draw()
         self.coin_list.draw()
         self.player_list.draw()
         self.player_sprite.draw_health_bar()
         self.player_sprite.draw_health_number()
         self.enemy_list.draw()
         self.bullet_list.draw()
-        self.enemy_list.draw_health_bar()
+        #self.enemy_list.draw_health_bar()
         
         
         # Draw our score on the screen, scrolling it with the viewport
@@ -243,6 +243,8 @@ class GameView(arcade.View):
         self.enemy_list.shoot(self.player_sprite.center_x, self.player_sprite.center_y, self.frame_count, self.bullet_list)
 
         # Get rid of the bullet when it flies off-screen
+
+        
         for bullet in self.bullet_list:
             if bullet.top < 0:
                 bullet.remove_from_sprite_lists()
@@ -268,7 +270,7 @@ class GameView(arcade.View):
                 
 
             # If the bullet flies off-screen, remove it.
-            if bullet.bottom > self.window.width or bullet.top < 0 or bullet.right < 0 or bullet.left > self.window.width:
+            if bullet.top < 0 or bullet.right < 0:
                 bullet.remove_from_sprite_lists()
 
         self.bullet_list.update()
