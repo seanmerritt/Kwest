@@ -272,11 +272,8 @@ class GameView(arcade.View):
                 bullet.remove_from_sprite_lists()
 
             #If player falls kill them
-             if self.player.rect.bottom > HEIGHT:
-                for sprite in self.all_sprites:
-                    sprite.rect.y -= max(self.player.vel.y, 10)
-                    if sprite.rect.bottom < 0:
-                        sprite.remove_from_sprite_lists()
+             if self.player.top < self.window.width:
+                self.game_over =True
 
         self.bullet_list.update()
         
@@ -400,9 +397,15 @@ class GameView(arcade.View):
             if self.player_sprite.get_death:
                 self.game_over = True
                 self.player_sprite.remove_from_sprite_lists()
-            
+                
+            #check max health
+            if self.player_sprite.cur_health ==0:
+                self.game_over=true
+                
+            #kill sprit if they fall
+            if self.player
             #game over screen
-            if self.game_over:
+            if self.game_over=true:
                 self.screen.fill(BGCOLOR)
                 self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
                 self.draw_text("Score: " + str(self.score), 22, WHITE, WIDTH / 2, HEIGHT / 2)
