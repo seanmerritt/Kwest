@@ -236,6 +236,11 @@ class GameView(arcade.View):
     def on_update(self, delta_time):
         """ Movement and game logic """
 
+        #if player health =0 kill them
+        if self.player_sprite.cur_health ==0:     
+            death = GameOverView(self)
+            self.window.show_view(death)
+
         # Move the player with the physics engine
         self.physics_engine.update()
         self.frame_count += 1
@@ -398,8 +403,60 @@ class GameView(arcade.View):
                 self.game_over = True
                 self.player_sprite.remove_from_sprite_lists()
 
-            if self.game_over:
-                pass
+            
+
+class GameOverView(arcade.View):
+    """ View to show when game is over """
+
+    #wait for key to be pressed to continue
+    def wait_for_key(self, key, _modifiers):
+        if key == arcade.key.ENTER:  # reset game
+            game = GameView()
+            game.setup()
+            self.window.show_view(game)
+
+            
+    #flavoring for text
+    def __init__(self, game_view):
+        """ This is run once when we switch to this view """
+        super().__init__()
+        self.game_view = game_view
+
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        
+
+    def on_show(self):
+        arcade.set_background_color(arcade.color.BLACK)
+
+    def on_draw(self):
+        arcade.start_render()
+
+        WIDTH = (CONSTANTS.SCREEN_WIDTH + self.game_view.view_left) -  self.game_view.view_left
+        HEIGHT = (CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom) - self.game_view.view_bottom
+
+        arcade.draw_lrtb_rectangle_filled(left=self.game_view.view_left,
+                                          right= CONSTANTS.SCREEN_WIDTH + self.game_view.view_left,
+                                          top=CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom,
+                                          bottom=self.game_view.view_bottom,
+                                          color=arcade.color.BLACK)
+
+        arcade.draw_text("GAME OVER", WIDTH/2, HEIGHT/2+50,
+                         arcade.color.SCARLET, font_size=50, anchor_x="center")
+
+        arcade.draw_text("Press the Space Bar to reset",
+                         WIDTH/2,
+                         HEIGHT/2-30,
+                         arcade.color.SCARLET,
+                         font_size=20,
+                         anchor_x="center")
+
+    def on_key_press(self, key, _modifiers):
+        if key == arcade.key.SPACE:  
+            game = GameView()
+            game.setup()
+            self.window.show_view(game)
+
 
 
 class PauseView(arcade.View):
