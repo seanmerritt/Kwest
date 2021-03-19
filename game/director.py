@@ -38,8 +38,13 @@ class GameView(arcade.View):
         self.box_list = None
         self.wall_list = None
         self.key_list = None
-        self.enemy_list = None
-        self.bullet_list= None
+        self.bullet_list = None
+        
+        self.my_bullet_list = None
+        self.power_up_list = None
+        self.can_shoot = False
+        self.character_face_direction = "default"
+
         self.game_over = False
         #self.moving_platforms_list = None
         
@@ -80,7 +85,10 @@ class GameView(arcade.View):
         self.coin_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
-       # self.moving_platforms_list = arcade.SpriteList()
+        
+        self.my_bullet_list = arcade.SpriteList()
+        self.power_up_list = arcade.SpriteList()
+       #  self.moving_platforms_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
         self.player_sprite = Player(max_health= 10)
@@ -88,6 +96,11 @@ class GameView(arcade.View):
         self.player_sprite.center_x = CONSTANTS.PLAYER_START_X
         self.player_sprite.center_y = CONSTANTS.PLAYER_START_Y
         self.player_list.append(self.player_sprite)
+
+        self.power_up = arcade.Sprite(":resources:images/items/gemRed.png", 0.5)
+        self.power_up.center_x = CONSTANTS.PLAYER_START_X + 100*10
+        self.power_up.center_y = CONSTANTS.PLAYER_START_Y - 95
+        self.power_up_list.append(self.power_up)        
 
         # --- Load in a map from the tiled editor ---
 
@@ -154,8 +167,10 @@ class GameView(arcade.View):
         self.player_sprite.draw_health_number()
         self.enemy_list.draw()
         self.bullet_list.draw()
-        #self.enemy_list.draw_health_bar()
+        self.enemy_list.draw_health_bar()
         
+        self.my_bullet_list.draw()
+        self.power_up_list.draw()
         
         # Draw our score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
@@ -205,16 +220,59 @@ class GameView(arcade.View):
 
         if key == arcade.key.UP or key == arcade.key.W:
             self.up_pressed = True
+            self.character_face_direction = "up"
         elif key == arcade.key.DOWN or key == arcade.key.S:
             self.down_pressed = True
+            self.character_face_direction = "down"
         elif key == arcade.key.LEFT or key == arcade.key.A:
             self.left_pressed = True
+            self.character_face_direction = "left"
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.right_pressed = True
+            self.character_face_direction = "right"
         elif key == arcade.key.ESCAPE:
             # pass self, the current view, to preserve this view's state
             pause = PauseView(self)
             self.window.show_view(pause)
+
+        if (key == arcade.key.SPACE) and (self.can_shoot):
+            # Gunshot sound
+            # arcade.play_sound(self.gun_sound)
+            # Create a bullet
+            my_bullet = arcade.Sprite(":resources:images/space_shooter/laserRed01.png")
+            my_bullet.center_y = self.player_sprite.center_y - 20
+
+            if self.character_face_direction == "left":
+                my_bullet.center_x = self.player_sprite.center_x - 20
+                my_bullet.angle = 180
+                my_bullet.change_x =  -CONSTANTS.MY_BULLET_SPEED
+                print(self.character_face_direction)  
+            elif self.character_face_direction == "right":
+                my_bullet.center_x = self.player_sprite.center_x + 20
+                my_bullet.angle = 0
+                my_bullet.change_x =  CONSTANTS.MY_BULLET_SPEED
+                print(self.character_face_direction)
+            elif self.character_face_direction == "up":
+                my_bullet.center_x = self.player_sprite.center_x
+                my_bullet.angle = 90
+                my_bullet.change_x = 0
+                my_bullet.change_y = CONSTANTS.MY_BULLET_SPEED
+                print(self.character_face_direction)
+            elif self.character_face_direction == "down":
+                my_bullet.center_x = self.player_sprite.center_x
+                my_bullet.angle = 270
+                my_bullet.change_x = 0
+                my_bullet.change_y = -CONSTANTS.MY_BULLET_SPEED
+                print(self.character_face_direction)
+
+                 
+
+            print(f"Bullet angle: {my_bullet.angle:.2f}")   
+
+
+            self.my_bullet_list.append(my_bullet)               
+         
+            
 
         self.process_keychange()
 
@@ -278,7 +336,33 @@ class GameView(arcade.View):
             if bullet.top < 0 or bullet.right < 0:
                 bullet.remove_from_sprite_lists()
 
+        for my_bullet in self.my_bullet_list:
+            if my_bullet.top < 0:
+                my_bullet.remove_from_sprite_lists()
+
+            # Check this bullet to see if it hit a wall
+            wallhit_list2 = arcade.check_for_collision_with_list(my_bullet, self.wall_list)
+            # If it did, get rid of the bullet
+            if len(wallhit_list2) > 0:
+                my_bullet.remove_from_sprite_lists()
+
+            #Check this bullet to see if it hit an enemy
+            enemyhit_list = arcade.check_for_collision_with_list(my_bullet, self.enemy_list)
+            # If it did, get rid of the bullet
+            if len(enemyhit_list) > 0:
+                my_bullet.remove_from_sprite_lists()                
+                
+
+            # If the bullet flies off-screen, remove it.
+            if my_bullet.top < 0 or my_bullet.right < 0:
+                my_bullet.remove_from_sprite_lists()
+
         self.bullet_list.update()
+        self.my_bullet_list.update()
+
+        if arcade.check_for_collision_with_list(self.player_sprite,self.power_up_list):
+            self.can_shoot = True
+            self.power_up.remove_from_sprite_lists()        
         
         ## Enemies losing health. I will edit this later for something that actually makes sense. 
         """
