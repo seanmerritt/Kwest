@@ -137,7 +137,7 @@ class Player(arcade.Sprite):
         health_width = CONSTANTS.HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
 
         arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (CONSTANTS.HEALTHBAR_WIDTH - health_width),
-                                     center_y=self.center_y + CONSTANTS.HEALTH_NUMBER_OFFSET_Y,
+                                     center_y=self.center_y + CONSTANTS.HEALTHBAR_OFFSET_Y,
                                      width=health_width,
                                      height=CONSTANTS.HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)

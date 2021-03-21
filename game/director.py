@@ -62,6 +62,7 @@ class GameView(arcade.View):
 
         # Keep track of the score
         self.score = 0
+        self.kills = 0
 
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
@@ -77,6 +78,7 @@ class GameView(arcade.View):
 
         # Keep track of the score
         self.score = 0
+        self.kills = 0
 
         # Create the Sprite lists
         self.player_list = arcade.SpriteList()
@@ -168,6 +170,7 @@ class GameView(arcade.View):
         self.enemy_list.draw()
         self.bullet_list.draw()
         self.enemy_list.draw_health_bar()
+        self.enemy_list.draw_health_number()
         
         self.my_bullet_list.draw()
         self.power_up_list.draw()
@@ -246,28 +249,28 @@ class GameView(arcade.View):
                 my_bullet.center_x = self.player_sprite.center_x - 20
                 my_bullet.angle = 180
                 my_bullet.change_x =  -CONSTANTS.MY_BULLET_SPEED
-                print(self.character_face_direction)  
+                # print(self.character_face_direction)  
             elif self.character_face_direction == "right":
                 my_bullet.center_x = self.player_sprite.center_x + 20
                 my_bullet.angle = 0
                 my_bullet.change_x =  CONSTANTS.MY_BULLET_SPEED
-                print(self.character_face_direction)
+                # print(self.character_face_direction)
             elif self.character_face_direction == "up":
                 my_bullet.center_x = self.player_sprite.center_x
                 my_bullet.angle = 90
                 my_bullet.change_x = 0
                 my_bullet.change_y = CONSTANTS.MY_BULLET_SPEED
-                print(self.character_face_direction)
+                # print(self.character_face_direction)
             elif self.character_face_direction == "down":
                 my_bullet.center_x = self.player_sprite.center_x
                 my_bullet.angle = 270
                 my_bullet.change_x = 0
                 my_bullet.change_y = -CONSTANTS.MY_BULLET_SPEED
-                print(self.character_face_direction)
+                # print(self.character_face_direction)
 
                  
 
-            print(f"Bullet angle: {my_bullet.angle:.2f}")   
+            # print(f"Bullet angle: {my_bullet.angle:.2f}")   
 
 
             self.my_bullet_list.append(my_bullet)               
@@ -350,7 +353,40 @@ class GameView(arcade.View):
             enemyhit_list = arcade.check_for_collision_with_list(my_bullet, self.enemy_list)
             # If it did, get rid of the bullet
             if len(enemyhit_list) > 0:
-                my_bullet.remove_from_sprite_lists()                
+                my_bullet.remove_from_sprite_lists()
+                # for enemy in self.enemy_list: #removes all enemies from the screen
+                for enemy in enemyhit_list:
+                    enemy.cur_health -= 1  
+                    # enemy.remove_from_sprite_lists() #1 shot kill 
+                    if (enemy.cur_health == 0):
+                        enemy.remove_from_sprite_lists()
+                        # len(self.enemy_list) - 1
+                        # enemy.remove_from(self.enemy_list)
+                        # enemyhit_list.remove_from_lists()
+                        self.enemy_list.update()
+                        # print(enemy)
+                        print((enemyhit_list))
+                        print(len(self.enemy_list))
+                        # enemyhit_list.update()
+                        # print(self.enemy_list)
+                        # for enemy in self.enemy_list:
+                        #     if arcade.check_for_collision_with_list(enemy,self.my_bullet_list):
+                        #         enemy.remove_from_sprite_lists()
+
+
+                
+
+            
+                        # for enemy in self.enemy_list:
+                        #     enemy.remove_from_sprite_lists()
+
+
+            # kills_list = self.kills
+            # for self.kills in kills_list:
+            #     self.kills.remove_from_sprite_lists()
+            # # for enemy in self.enemy_list():
+            #     enemy.remove_from_sprite_lists()
+
                 
 
             # If the bullet flies off-screen, remove it.
@@ -359,6 +395,9 @@ class GameView(arcade.View):
 
         self.bullet_list.update()
         self.my_bullet_list.update()
+        self.enemy_list.update()
+        
+
 
         if arcade.check_for_collision_with_list(self.player_sprite,self.power_up_list):
             self.can_shoot = True
@@ -390,6 +429,7 @@ class GameView(arcade.View):
             self.process_keychange()
         
         self.coin_list.update_animation(delta_time)
+        self.enemy_list.update_animation(delta_time)
         self.background_list.update_animation(delta_time)
         self.player_list.update_animation(delta_time)
 
@@ -420,6 +460,8 @@ class GameView(arcade.View):
 
             # Remove the coin
             coin.remove_from_sprite_lists()
+            # print(len(coin_hit_list))  #1 coin
+            # print(len(self.coin_list)) #remaining coins
             arcade.play_sound(self.collect_coin_sound)
 
         # Track if we need to change the viewport

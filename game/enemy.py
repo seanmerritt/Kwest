@@ -77,7 +77,11 @@ class enemies(arcade.SpriteList):
             health_width = CONSTANTS.HEALTHBAR_WIDTH * (enemy.cur_health / enemy.max_health)
 
             arcade.draw_rectangle_filled(center_x=enemy.center_x - 0.5 * (CONSTANTS.HEALTHBAR_WIDTH - health_width),
-                                        center_y=enemy.center_y - 10,
+                                        center_y=enemy.center_y + CONSTANTS.HEALTHBAR_OFFSET_Y,
                                         width=health_width,
                                         height=CONSTANTS.HEALTHBAR_HEIGHT,
                                         color=arcade.color.GREEN)
+    # def check_life(self):
+    #     for enemy in self.enemy_list:
+    #         if enemy.cur_health < 1:
+    #             enemy.remove_from_sprite_lists()
