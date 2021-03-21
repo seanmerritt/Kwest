@@ -560,6 +560,8 @@ class GameOverView(arcade.View):
 
         WIDTH = (CONSTANTS.SCREEN_WIDTH + self.game_view.view_left) -  self.game_view.view_left
         HEIGHT = (CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom) - self.game_view.view_bottom
+        
+        arcade.set_viewport(0, WIDTH - 1, 0, HEIGHT - 1)
 
         arcade.draw_lrtb_rectangle_filled(left=self.game_view.view_left,
                                           right= CONSTANTS.SCREEN_WIDTH + self.game_view.view_left,
@@ -605,6 +607,8 @@ class PauseView(arcade.View):
         WIDTH = (CONSTANTS.SCREEN_WIDTH + self.game_view.view_left) -  self.game_view.view_left
         HEIGHT = (CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom) - self.game_view.view_bottom
 
+        arcade.set_viewport(0, WIDTH - 1, 0, HEIGHT - 1)
+        
         # draw an orange filter over him
         arcade.draw_lrtb_rectangle_filled(left=self.game_view.view_left,
                                           right= CONSTANTS.SCREEN_WIDTH + self.game_view.view_left,
