@@ -142,7 +142,7 @@ class GameView(arcade.View):
         self.coin_list = arcade.tilemap.process_layer(my_map, coins_layer_name,
                                                       CONSTANTS.TILE_SCALING,
                                                      use_spatial_hash=True)
-        self.enemy_list = enemies(arcade.tilemap.process_layer(my_map,"Enemies", CONSTANTS.TILE_SCALING), 10)
+        self.enemy_list = enemies(arcade.tilemap.process_layer(my_map,"Enemies", CONSTANTS.TILE_SCALING), 3)
         # Set the background color
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
@@ -150,7 +150,8 @@ class GameView(arcade.View):
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
-                                                             gravity_constant= CONSTANTS.GRAVITY , ladders=self.ladder_list
+                                                             gravity_constant= CONSTANTS.GRAVITY , 
+                                                             ladders=self.ladder_list
                                                              )
 
 
@@ -247,23 +248,23 @@ class GameView(arcade.View):
 
             if self.character_face_direction == "left":
                 my_bullet.center_x = self.player_sprite.center_x - 20
-                my_bullet.angle = 180
+                my_bullet.angle = 90
                 my_bullet.change_x =  -CONSTANTS.MY_BULLET_SPEED
                 # print(self.character_face_direction)  
             elif self.character_face_direction == "right":
                 my_bullet.center_x = self.player_sprite.center_x + 20
-                my_bullet.angle = 0
+                my_bullet.angle = -90
                 my_bullet.change_x =  CONSTANTS.MY_BULLET_SPEED
                 # print(self.character_face_direction)
             elif self.character_face_direction == "up":
                 my_bullet.center_x = self.player_sprite.center_x
-                my_bullet.angle = 90
+                my_bullet.angle = 0
                 my_bullet.change_x = 0
                 my_bullet.change_y = CONSTANTS.MY_BULLET_SPEED
                 # print(self.character_face_direction)
             elif self.character_face_direction == "down":
                 my_bullet.center_x = self.player_sprite.center_x
-                my_bullet.angle = 270
+                my_bullet.angle = 180
                 my_bullet.change_x = 0
                 my_bullet.change_y = -CONSTANTS.MY_BULLET_SPEED
                 # print(self.character_face_direction)
@@ -356,24 +357,7 @@ class GameView(arcade.View):
                 my_bullet.remove_from_sprite_lists()
                 # for enemy in self.enemy_list: #removes all enemies from the screen
                 for enemy in enemyhit_list:
-                    enemy.cur_health -= 1  
-                    # enemy.remove_from_sprite_lists() #1 shot kill 
-                    if (enemy.cur_health == 0):
-                        enemy.remove_from_sprite_lists()
-                        # len(self.enemy_list) - 1
-                        # enemy.remove_from(self.enemy_list)
-                        # enemyhit_list.remove_from_lists()
-                        self.enemy_list.update()
-                        # print(enemy)
-                        print((enemyhit_list))
-                        print(len(self.enemy_list))
-                        # enemyhit_list.update()
-                        # print(self.enemy_list)
-                        # for enemy in self.enemy_list:
-                        #     if arcade.check_for_collision_with_list(enemy,self.my_bullet_list):
-                        #         enemy.remove_from_sprite_lists()
-
-
+                    enemy.cur_health -= 1
                 
 
             
@@ -388,13 +372,14 @@ class GameView(arcade.View):
             #     enemy.remove_from_sprite_lists()
 
                 
-
+            
             # If the bullet flies off-screen, remove it.
             if my_bullet.top < 0 or my_bullet.right < 0:
                 my_bullet.remove_from_sprite_lists()
 
         self.bullet_list.update()
         self.my_bullet_list.update()
+        self.enemy_list.check_health()
         self.enemy_list.update()
         
 

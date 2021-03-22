@@ -51,6 +51,7 @@ class enemies(arcade.SpriteList):
                 bullet.change_y = math.sin(angle) * CONSTANTS.BULLET_SPEED
 
                 bullet_list.append(bullet)
+
     
     def draw_health_number(self):
         """ Draw how many hit points we have """
@@ -80,8 +81,22 @@ class enemies(arcade.SpriteList):
                                         center_y=enemy.center_y + CONSTANTS.HEALTHBAR_OFFSET_Y,
                                         width=health_width,
                                         height=CONSTANTS.HEALTHBAR_HEIGHT,
-                                        color=arcade.color.GREEN)
-    # def check_life(self):
-    #     for enemy in self.enemy_list:
-    #         if enemy.cur_health < 1:
-    #             enemy.remove_from_sprite_lists()
+                                        color=arcade.color.GREEN)   
+
+    def check_health(self):
+        for enemy in self.sprite_list:
+            if (enemy.cur_health == 0):
+                enemy.remove_from_sprite_lists()
+                del enemy
+                
+                # len(self.enemy_list) - 1
+                # enemy.remove_from(self.enemy_list)
+                # enemyhit_list.remove_from_lists()
+                
+                # print(enemy)
+                print(len(self.sprite_list))
+                # enemyhit_list.update()
+                # print(self.enemy_list)
+                # for enemy in self.enemy_list:
+                #     if arcade.check_for_collision_with_list(enemy,self.my_bullet_list):
+                #         enemy.remove_from_sprite_lists()
