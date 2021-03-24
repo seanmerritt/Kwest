@@ -39,6 +39,7 @@ class GameView(arcade.View):
         self.wall_list = None
         self.key_list = None
         self.bullet_list = None
+        self.booster_list = None
         
         self.my_bullet_list = None
         self.power_up_list = None
@@ -147,6 +148,11 @@ class GameView(arcade.View):
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
 
+
+        self.booster_list = arcade.tilemap.process_layer(my_map, "Boosters",
+                                                      CONSTANTS.TILE_SCALING,
+                                                     use_spatial_hash=True)
+
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite,
                                                              self.wall_list,
@@ -172,6 +178,7 @@ class GameView(arcade.View):
         self.bullet_list.draw()
         self.enemy_list.draw_health_bar()
         self.enemy_list.draw_health_number()
+        self.booster_list.draw()
         
         self.my_bullet_list.draw()
         self.power_up_list.draw()
