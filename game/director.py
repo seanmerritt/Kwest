@@ -184,6 +184,7 @@ class GameView(arcade.View):
         
         self.my_bullet_list.draw()
         self.power_up_list.draw()
+        self.dead_list.draw()
         
         # Draw our score on the screen, scrolling it with the viewport
         score_text = f"Score: {self.score}"
@@ -332,6 +333,12 @@ class GameView(arcade.View):
             if len(wallhit_list) > 0:
                 bullet.remove_from_sprite_lists()
 
+            #Check this bullet to see if it hit at grave stone
+            gravehit_list = arcade.check_for_collision_with_list(bullet, self.dead_list)
+            if len(gravehit_list) > 0:
+                bullet.remove_from_sprite_lists()
+
+
             playerhit_list = arcade.check_for_collision_with_list(bullet, self.player_list)
 
             # If it did, get rid of the bullet
@@ -360,44 +367,29 @@ class GameView(arcade.View):
                 my_bullet.remove_from_sprite_lists()
 
             #Check this bullet to see if it hit an enemy
+            self.enemy_list.check_health()
+
             enemyhit_list = arcade.check_for_collision_with_list(my_bullet, self.enemy_list)
             # If it did, get rid of the bullet
-            if len(enemyhit_list) > 0:
-                my_bullet.remove_from_sprite_lists()
-                # for enemy in self.enemy_list: #removes all enemies from the screen
-                for enemy in enemyhit_list:
+
+
+            for enemy in enemyhit_list:
+                if (len(enemyhit_list) > 0) and (not enemy.dead):
+                    my_bullet.remove_from_sprite_lists()
                     enemy.cur_health -= 1
-                    print(enemy)
-                    if enemy.cur_health <=0:
-                        # if enemy != enemy:
-                        # del enemy 
+                    if (enemy.cur_health <=0) and (not enemy.dead):
+                        #creates tombstone sprite when enemy dies
+                        print("Before: ", enemy.dead)
+                        dead = arcade.Sprite(":resources:images/enemies/tombstone2.png", 0.3)
+                        dead.center_x = enemy.center_x
+                        dead.center_y = enemy.center_y+4.5
+                        self.dead_list.append(dead)                            
+
+                        setattr(enemy,'dead',True)
+                        print("After: ", enemy.dead)
                         self.dead_list.append(enemy)
                         enemy.remove_from_sprite_lists()   
-                        del enemy                     
-                        print("Dead count = ", len(self.dead_list))
-                        print("Enemy count = ", len(self.enemy_list))
-                        # enemy.remove_from_sprite_lists()
-
-                
-
-            # for dead in self.dead_list:
-            #     for enemy in self.enemy_list:
-            #         if dead == enemy:
-            #             enemy.remove_from_sprite_lists()
-            #             dead.remove_from_sprite_lists()
-            #             print("done")
-            #             print("Dead count = ", len(self.dead_list))
-            #             print("Enemy count = ", len(self.enemy_list))
-                        # for enemy in self.enemy_list:
-                        #     enemy.remove_from_sprite_lists()
-
-
-            # kills_list = self.kills
-            # for self.kills in kills_list:
-            #     self.kills.remove_from_sprite_lists()
-            # # for enemy in self.enemy_list():
-            #     enemy.remove_from_sprite_lists()
-
+                        del enemy                         
                 
             
             # If the bullet flies off-screen, remove it.

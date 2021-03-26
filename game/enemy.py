@@ -13,6 +13,7 @@ class enemies(arcade.SpriteList):
         for enemy in self.enemy_list:
             setattr(enemy, 'max_health', self.max_health)
             setattr(enemy, 'cur_health', self.max_health)
+            setattr(enemy, 'dead', False)
         self.sprite_list = self.enemy_list.sprite_list
         
 
