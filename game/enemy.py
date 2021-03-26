@@ -84,7 +84,7 @@ class enemies(arcade.SpriteList):
                                         color=arcade.color.GREEN)   
 
     def check_health(self):
-        for enemy in self.sprite_list:
+        for enemy in self.enemy_list:
             if (enemy.cur_health == 0):
                 enemy.remove_from_sprite_lists()
                 del enemy
@@ -94,6 +94,7 @@ class enemies(arcade.SpriteList):
                 # enemyhit_list.remove_from_lists()
                 
                 # print(enemy)
+                print("help")
                 print(len(self.sprite_list))
                 # enemyhit_list.update()
                 # print(self.enemy_list)

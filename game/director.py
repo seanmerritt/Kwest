@@ -43,6 +43,7 @@ class GameView(arcade.View):
         
         self.my_bullet_list = None
         self.power_up_list = None
+        self.dead_list = None
         self.can_shoot = False
         self.character_face_direction = "default"
 
@@ -91,6 +92,7 @@ class GameView(arcade.View):
         
         self.my_bullet_list = arcade.SpriteList()
         self.power_up_list = arcade.SpriteList()
+        self.dead_list = arcade.SpriteList()
        #  self.moving_platforms_list = arcade.SpriteList()
 
         # Set up the player, specifically placing it at these coordinates.
@@ -365,9 +367,27 @@ class GameView(arcade.View):
                 # for enemy in self.enemy_list: #removes all enemies from the screen
                 for enemy in enemyhit_list:
                     enemy.cur_health -= 1
+                    print(enemy)
+                    if enemy.cur_health <=0:
+                        # if enemy != enemy:
+                        # del enemy 
+                        self.dead_list.append(enemy)
+                        enemy.remove_from_sprite_lists()   
+                        del enemy                     
+                        print("Dead count = ", len(self.dead_list))
+                        print("Enemy count = ", len(self.enemy_list))
+                        # enemy.remove_from_sprite_lists()
+
                 
 
-            
+            # for dead in self.dead_list:
+            #     for enemy in self.enemy_list:
+            #         if dead == enemy:
+            #             enemy.remove_from_sprite_lists()
+            #             dead.remove_from_sprite_lists()
+            #             print("done")
+            #             print("Dead count = ", len(self.dead_list))
+            #             print("Enemy count = ", len(self.enemy_list))
                         # for enemy in self.enemy_list:
                         #     enemy.remove_from_sprite_lists()
 
@@ -386,8 +406,9 @@ class GameView(arcade.View):
 
         self.bullet_list.update()
         self.my_bullet_list.update()
-        self.enemy_list.check_health()
         self.enemy_list.update()
+        self.enemy_list.check_health()
+        
         
 
 
@@ -449,12 +470,36 @@ class GameView(arcade.View):
 
             # Figure out how many points this coin is worth
             self.score += 1
+            if self.score%50 ==0:
+                self.player_sprite.cur_health += 3
+
 
             # Remove the coin
             coin.remove_from_sprite_lists()
             # print(len(coin_hit_list))  #1 coin
             # print(len(self.coin_list)) #remaining coins
             arcade.play_sound(self.collect_coin_sound)
+
+
+
+                # See if we hit any coins
+        boost_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                             self.booster_list)
+
+        # Loop through each coin we hit (if any) and remove it
+        for boost in boost_hit_list:
+
+            # Figure out how many points this coin is worth
+            self.player_sprite.cur_health += 3
+
+            # Remove the coin
+            boost.remove_from_sprite_lists()
+            # print(len(coin_hit_list))  #1 coin
+            print("Booster count = ",len(self.booster_list)) #remaining coins
+            # arcade.play_sound(self.collect_coin_sound)
+
+
+
 
         # Track if we need to change the viewport
         changed_viewport = False
@@ -500,18 +545,19 @@ class GameView(arcade.View):
         if not self.game_over:
             # Move the enemies
             self.enemy_list.update()
+            # print("oh!")
 
-            # Check each enemy
-            for enemy in self.enemy_list:
-                # If the enemy hit a wall, reverse
-                if len(arcade.check_for_collision_with_list(enemy, self.wall_list)) > 0:
-                    enemy.change_x *= -1
-                # If the enemy hit the left boundary, reverse
-                elif enemy.boundary_left is not None and enemy.left < enemy.boundary_left:
-                    enemy.change_x *= -1
-                # If the enemy hit the right boundary, reverse
-                elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
-                    enemy.change_x *= -1
+            # # Check each enemy
+            # for enemy in self.enemy_list:
+            #     # If the enemy hit a wall, reverse
+            #     if len(arcade.check_for_collision_with_list(enemy, self.wall_list)) > 0:
+            #         enemy.change_x *= -1
+            #     # If the enemy hit the left boundary, reverse
+            #     elif enemy.boundary_left is not None and enemy.left < enemy.boundary_left:
+            #         enemy.change_x *= -1
+            #     # If the enemy hit the right boundary, reverse
+            #     elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
+            #         enemy.change_x *= -1
 
             # Update the player using the physics engine
             self.physics_engine.update()
