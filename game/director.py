@@ -471,7 +471,8 @@ class GameView(arcade.View):
             # Figure out how many points this coin is worth
             self.score += 1
             if self.score%50 ==0:
-                self.player_sprite.cur_health += 3
+                self.player_sprite.max_health += 3
+                self.player_sprite.cur_health = self.player_sprite.max_health
 
 
             # Remove the coin
