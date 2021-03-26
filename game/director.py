@@ -380,10 +380,12 @@ class GameView(arcade.View):
                     if (enemy.cur_health <=0) and (not enemy.dead):
                         #creates tombstone sprite when enemy dies
                         print("Before: ", enemy.dead)
-                        dead = arcade.Sprite(":resources:images/enemies/tombstone2.png", 0.3)
-                        dead.center_x = enemy.center_x
-                        dead.center_y = enemy.center_y+4.5
-                        self.dead_list.append(dead)                            
+
+                        #Erik Will Fix this part
+                        # dead = arcade.Sprite("game/png/Object/tombstone2.png", 0.3)
+                        # dead.center_x = enemy.center_x
+                        # dead.center_y = enemy.center_y+4.5
+                        # self.dead_list.append(dead)                            
 
                         setattr(enemy,'dead',True)
                         print("After: ", enemy.dead)
