@@ -313,6 +313,10 @@ class GameView(arcade.View):
             death = GameOverView(self)
             self.window.show_view(death)
 
+        if self.player_sprite.center_y < -5:     
+            death = GameOverView(self)
+            self.window.show_view(death)
+
         # Move the player with the physics engine
         self.physics_engine.update()
         self.frame_count += 1

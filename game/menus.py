@@ -59,7 +59,7 @@ class InstructionView(arcade.View):
         arcade.start_render()
         arcade.draw_text("Instructions Screen", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/2,
                          arcade.color.BLACK, font_size=50, anchor_x="center")
-        arcade.draw_text("Use the arrow keys to move and the space bar to shoot. you can also press esc to pause at any time Click to advance", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/2-75,
+        arcade.draw_text("Use the arrow keys to move and the space bar to shoot. \nPress esc to pause at any time. \nClick to advance", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/2-75,
                          arcade.color.GRAY, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
