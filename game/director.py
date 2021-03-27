@@ -386,10 +386,10 @@ class GameView(arcade.View):
                         print("Before: ", enemy.dead)
 
                         #Erik Will Fix this part
-                        # dead = arcade.Sprite("game/png/Object/tombstone2.png", 0.3)
-                        # dead.center_x = enemy.center_x
-                        # dead.center_y = enemy.center_y+4.5
-                        # self.dead_list.append(dead)                            
+                        dead = arcade.Sprite("png/Object/tombstone2.png", 0.3)
+                        dead.center_x = enemy.center_x
+                        dead.center_y = enemy.center_y+4.5
+                        self.dead_list.append(dead)                            
 
                         setattr(enemy,'dead',True)
                         print("After: ", enemy.dead)
