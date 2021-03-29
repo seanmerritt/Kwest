@@ -103,8 +103,8 @@ class GameView(arcade.View):
         self.player_list.append(self.player_sprite)
 
         self.power_up = arcade.Sprite(":resources:images/items/gemRed.png", 0.5)
-        self.power_up.center_x = CONSTANTS.PLAYER_START_X + 100*10
-        self.power_up.center_y = CONSTANTS.PLAYER_START_Y - 95
+        self.power_up.center_x = CONSTANTS.PLAYER_START_X + 5500
+        self.power_up.center_y = CONSTANTS.PLAYER_START_Y + 5800
         self.power_up_list.append(self.power_up)        
 
         # --- Load in a map from the tiled editor ---
