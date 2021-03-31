@@ -6,6 +6,7 @@ from game.player import Player
 import random
 import math
 from game.enemy import enemies
+import time
 
 
 class GameView(arcade.View):
@@ -30,6 +31,8 @@ class GameView(arcade.View):
         self.up_pressed = False
         self.down_pressed = False
         self.jump_needs_reset = False
+        self.game_start_time = time.time()
+        self.game_end_time = 0
 
         # Lists for the game
         self.coin_list = None
@@ -40,6 +43,7 @@ class GameView(arcade.View):
         self.key_list = None
         self.bullet_list = None
         self.booster_list = None
+        self.finish_list = None
         
         self.my_bullet_list = None
         self.power_up_list = None
@@ -89,6 +93,7 @@ class GameView(arcade.View):
         self.coin_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
+        self.finish_list = arcade.SpriteList()
         
         self.my_bullet_list = arcade.SpriteList()
         self.power_up_list = arcade.SpriteList()
@@ -146,6 +151,8 @@ class GameView(arcade.View):
                                                       CONSTANTS.TILE_SCALING,
                                                      use_spatial_hash=True)
         self.enemy_list = enemies(arcade.tilemap.process_layer(my_map,"Enemies", CONSTANTS.TILE_SCALING), 3)
+
+        self.finish_list = arcade.tilemap.process_layer(my_map,"Finish", CONSTANTS.TILE_SCALING)
         # Set the background color
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
@@ -181,6 +188,7 @@ class GameView(arcade.View):
         self.enemy_list.draw_health_bar()
         self.enemy_list.draw_health_number()
         self.booster_list.draw()
+        self.finish_list.draw()
         
         self.my_bullet_list.draw()
         self.power_up_list.draw()
@@ -497,8 +505,13 @@ class GameView(arcade.View):
             print("Booster count = ",len(self.booster_list)) #remaining coins
             # arcade.play_sound(self.collect_coin_sound)
 
-
-
+        if arcade.check_for_collision_with_list(self.player_sprite,self.finish_list):
+            ## Insert won game screen here!
+            self.game_end_time = time.time()
+            game_time = self.game_end_time - self.game_start_time
+            win = FinishView(self, self.score, len(self.dead_list), game_time)
+            self.window.show_view(win)
+            
 
         # Track if we need to change the viewport
         changed_viewport = False
@@ -540,7 +553,7 @@ class GameView(arcade.View):
                                 CONSTANTS.SCREEN_WIDTH + self.view_left,
                                 self.view_bottom,
                                 CONSTANTS.SCREEN_HEIGHT + self.view_bottom)
-
+        
         if not self.game_over:
             # Move the enemies
             self.enemy_list.update()
@@ -675,6 +688,62 @@ class PauseView(arcade.View):
         if key == arcade.key.ESCAPE:   # resume game
             self.window.show_view(self.game_view)
         elif key == arcade.key.ENTER:  # reset game
+            game = GameView()
+            game.setup()
+            self.window.show_view(game)
+
+class FinishView(arcade.View):
+    """ View to show when game is over """
+
+    #wait for key to be pressed to continue
+    def wait_for_key(self, key, _modifiers):
+        if key == arcade.key.ENTER:  # reset game
+            game = GameView()
+            game.setup()
+            self.window.show_view(game)
+
+            
+    #flavoring for text
+    def __init__(self, game_view, score, killed, game_time):
+        """ This is run once when we switch to this view """
+        super().__init__()
+        self.game_view = game_view
+        self.score = score
+        self.killed = killed
+        self.game_time = game_time
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        
+
+    def on_show(self):
+        arcade.set_background_color(arcade.color.BLACK)
+
+    def on_draw(self):
+        arcade.start_render()
+
+        WIDTH = (CONSTANTS.SCREEN_WIDTH + self.game_view.view_left) -  self.game_view.view_left
+        HEIGHT = (CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom) - self.game_view.view_bottom
+        
+        arcade.set_viewport(0, WIDTH - 1, 0, HEIGHT - 1)
+
+        arcade.draw_lrtb_rectangle_filled(left=self.game_view.view_left,
+                                          right= CONSTANTS.SCREEN_WIDTH + self.game_view.view_left,
+                                          top=CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom,
+                                          bottom=self.game_view.view_bottom,
+                                          color=arcade.color.BLACK)
+
+        arcade.draw_text(f"You won the game!\nYou gathered {self.score} coins,\nkilled {self.killed} enemies,\nand completed the game in {round(self.game_time,2)} seconds.", WIDTH/2, HEIGHT/2+50,
+                         arcade.color.SCARLET, font_size=20, anchor_x="center")
+
+        arcade.draw_text("Press the Space Bar to reset",
+                         WIDTH/2,
+                         HEIGHT/2-30,
+                         arcade.color.SCARLET,
+                         font_size=20,
+                         anchor_x="center")
+
+    def on_key_press(self, key, _modifiers):
+        if key == arcade.key.SPACE:  
             game = GameView()
             game.setup()
             self.window.show_view(game)
