@@ -4,8 +4,18 @@ Technologies:
 * Python
 * Arcade package
 
-Description:
-Kwest is an side-scroller platform adventure game. You are an explorer seeking the city Eldorado. You are not alone, there are several groups who seek the city for themselves and will do anything to stop you. You will fight, jump, run, and solve on your epic quest!
+Story:
+A long time ago in a Galaxy far, far away . . .
+Some random pissant aliens decided that they wanted El Dorado’s greatest treasure, the “Golden Man,” whatever the heck that’s supposed to be.
+After lightyears of travel, those aliens have finally reached Earth and are on the hunt.
+But if anyone’s going to steal some giant golden man from some old gold city, it’s going to be one of our own idiots that LIVES HERE, thank you VERY much.
+What’s that?
+I don’t CARE if we thought it was just a legend until now.
+Yeah, yeah, okay, I know – we haven’t been able to find it after centuries of looking, but we’re a lot more frickin’ motivated now AREN’T WE?
+Sorry, you’ll have to speak up.
+Oh. Why send you? Um. Well – We heard you were like, REALLY into Drake’s Fortune from the Uncharted series.
+Don’t think about it too much, ‘kay?
+ . . . Just shut up and go find the stupid gold statue or whatever already. 
 
 Features:
 Blocks, latters, puzzles(not quite sure what these will be), HP, side controls, shooting, enemies 

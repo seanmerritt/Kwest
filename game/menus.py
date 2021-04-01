@@ -57,10 +57,18 @@ class InstructionView(arcade.View):
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_text("Instructions Screen", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/2,
-                         arcade.color.BLACK, font_size=50, anchor_x="center")
-        arcade.draw_text("Use the arrow keys to move and the space bar to shoot. \nPress esc to pause at any time. \nClick to advance", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/2-75,
-                         arcade.color.GRAY, font_size=20, anchor_x="center")
+        arcade.draw_text("Instructions", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/3* 2,
+                         arcade.color.BLACK, font_size=25, anchor_x="center")
+        arcade.draw_text("Use the arrow keys to move.\nWhen you collect the red gem you can use the space bar to shoot.\nPress esc to pause at any time.\nClick to advance",
+                         CONSTANTS.SCREEN_WIDTH/2, (CONSTANTS.SCREEN_HEIGHT/3 *2 )- 80,
+                         arcade.color.BLACK, font_size=15, anchor_x="center")
+        arcade.draw_text("Story",
+                         CONSTANTS.SCREEN_WIDTH/2, (CONSTANTS.SCREEN_HEIGHT/3 *2)-120,
+                         arcade.color.BLACK, font_size=25, anchor_x="center")
+        arcade.draw_text("A long time ago in a Galaxy far, far away . . .\nSome random pissant aliens decided that they wanted El Dorado’s greatest treasure, the “Golden Man,” whatever the heck that’s supposed to be.\nAfter lightyears of travel, those aliens have finally reached Earth and are on the hunt.\nBut if anyone’s going to steal some giant golden man from some old gold city, it’s going to be one of our own idiots that LIVES HERE, thank you VERY much.\nWhat’s that?\nI don’t CARE if we thought it was just a legend until now.\nYeah, yeah, okay, I know – we haven’t been able to find it after centuries of looking, but we’re a lot more frickin’ motivated now AREN’T WE?\nSorry, you’ll have to speak up.\nOh. Why send you? Um. Well – We heard you were like, REALLY into Drake’s Fortune from the Uncharted series.\nDon’t think about it too much, ‘kay?\n. . . Just shut up and go find the stupid gold statue or whatever already.", 
+                         CONSTANTS.SCREEN_WIDTH/2, 
+                         (CONSTANTS.SCREEN_HEIGHT/3 *2)-250,
+                         arcade.color.BLACK, font_size=10, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = GameView()
