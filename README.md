@@ -20,21 +20,29 @@ Don’t think about it too much, ‘kay?
 Features:
 Blocks, latters, puzzles(not quite sure what these will be), HP, side controls, shooting, enemies 
 
-Notes from last meeting:
-What we know for certain
-·Side scrolling
-·Win: reach the end
-·Lose: health drops to zero
-Plans
-·Step 1: get it working make sure we can bring something up without errors
-· Step 2: program everything
-  o  make sure our inputs do what we want and interaction is possible
-  o  score, health, music/sound, attacking
-·Step 3: design the level
-  o  figure out how to set up things up, what challenges to involve
-  o  where to place enemies, objects, platforms, puzzle pieces (keys, buttons/switches)
-·Step 4: make it pretty
-  o  Extra, Add anything else we can think of
+Game Mechanics:
+* Controls- Use the arrow keys to move. Once you obtaini the power gem, you can use the space bar to shoot enemies. Pressing the "Esc" button any time will allow you to pause the game. 
+* Health- Mushrooms give you 3 points of health. Obtaining fifty coins also gives you 3 points of health.
+* Shooting- Enemies shoot at the player in synchronized intervals. Their bullets are disappear when they make contact with a wall or a tombstone.
+* Tombstones- Tombstones appear when an enemy's health reaches zero. The player can hide behind tombstones to avoid enemy fire.
+* Invisible enemies- As the player utilties the power gem and takes out enemies with energy blasts, the enemies get smarter and turn invisible. Tombstones still appear when they are taken out though.
+
+Instructions:
+Using the controls; leap over gaps, travers floating platforms, climb ladders, and take out enemies as you make your way through the level. Collect as many coins along the way and take out as many enemies as you can as fast as you can. The number of enemies killed, coins collected, and time spent will be displayed once the game is won. 
+
+
+Contributions:
+* Sean Merritt: Chief Programmer Extrodinare, Head Level Developer
+  - Provided the foundational structure of the code and its classes
+  - Formed the main structure/layout of the entire level
+* Zach Rochette: Design Specialist and 
+  - Provided alternative map with 
+* Finn Carver: Chief Editor of Window Displays 
+  - Made Instruction screen, Pause screen, Death Screen, etc. more presentable
+* Kylie Bagley: 
+* Erik Q. Birch: Group Meeting Organizer and Vanquisher of Sprites
+  - Lead/Presided over weekly group meetings 
+  - In charge of erasing enemies and other sprites once conditions met.
 
 Team Members:
 * Sean Merritt
