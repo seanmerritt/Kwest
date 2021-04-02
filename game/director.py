@@ -122,7 +122,7 @@ class GameView(arcade.View):
         coins_layer_name = 'Coins'
 
         # Map name
-        map_name = f"zach_adventure_map.tmx"
+        map_name = f"adventure_level.tmx"
         #map_name = f":resources:tmx_maps/map_with_ladders.tmx"
         # Read in the tiled map
         my_map = arcade.tilemap.read_tmx(map_name)
