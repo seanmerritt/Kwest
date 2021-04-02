@@ -11,7 +11,7 @@ After lightyears of travel, those aliens have finally reached Earth and are on t
 But if anyone’s going to steal some giant golden man from some old gold city, it’s going to be one of our own that LIVES HERE, thank you VERY much.
 What’s that?
 I don’t CARE if we thought it was just a legend until now.
-Yeah, yeah, okay, I know – we haven’t been able to find it after centuries of looking, but we’re a lot more really motivated now AREN’T WE?
+Yeah, yeah, okay, I know – we haven’t been able to find it after centuries of looking, but we’re a lot more motivated now AREN’T WE?
 Sorry, you’ll have to speak up.
 Oh. Why send you? Um. Well – We heard you were like, REALLY into Drake’s Fortune from the Uncharted series.
 Don’t think about it too much, ‘kay?
