@@ -59,7 +59,7 @@ class InstructionView(arcade.View):
         arcade.start_render()
         arcade.draw_text("Instructions", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/3* 2,
                          arcade.color.BLACK, font_size=25, anchor_x="center")
-        arcade.draw_text("Use the arrow keys to move.\nWhen you collect the red gem you can use the space bar to shoot.\nPress esc to pause at any time.\nClick to advance",
+        arcade.draw_text("Use the arrow keys to move and the space bar to shoot (after you find the power gem). \nPress esc to pause at any time. \nClick to advance",
                          CONSTANTS.SCREEN_WIDTH/2, (CONSTANTS.SCREEN_HEIGHT/3 *2 )- 80,
                          arcade.color.BLACK, font_size=15, anchor_x="center")
         arcade.draw_text("Story",
