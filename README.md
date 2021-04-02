@@ -53,7 +53,7 @@ Sean is a polymath. While he is finishing up is Masters in Organizational Psycho
 My name is Erik Q. Birch. I am technically a senior in college, but still have a long way to go til graduation thanks to switching my majors. I started out as a chemistry major, then swithed to Computer Science, and now in Art (going into animations). I served my mission in New York City speaking Mandarin Chinese (which I learned on the mission). I am originally from China, but was raised in an American family my whole childhood. I enjoy music, drawing, videogames, experimental cooking, good stories, time with Family and Friends, and a whole lot of other stuff.
 
 * Finn Carver 
-
+My name is Finn i am 19 years old. I am curently a junior with a software design major. I want to program company websites in the future. When I am not programing I am play games like Minecraft or playing DnD!
 
 * Zach Rochette
 
