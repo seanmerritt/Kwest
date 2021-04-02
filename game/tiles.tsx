@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.4" tiledversion="1.4.3" name="tiles" tilewidth="880" tileheight="1175" tilecount="39" columns="0">
+<tileset version="1.4" tiledversion="1.4.3" name="tiles" tilewidth="880" tileheight="1175" tilecount="40" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="21">
   <image width="128" height="128" source="png/Tiles/1.png"/>
@@ -117,5 +117,8 @@
  </tile>
  <tile id="59">
   <image width="250" height="182" source="png/Tiles/gold_pile_0.png"/>
+ </tile>
+ <tile id="60">
+  <image width="221" height="338" source="png/Object/gold_man2.png"/>
  </tile>
 </tileset>
