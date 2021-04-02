@@ -108,8 +108,8 @@ class GameView(arcade.View):
         self.player_list.append(self.player_sprite)
 
         self.power_up = arcade.Sprite(":resources:images/items/gemRed.png", 0.5)
-        self.power_up.center_x = CONSTANTS.PLAYER_START_X + 1750 #5250
-        self.power_up.center_y = CONSTANTS.PLAYER_START_Y + 2850 #5800
+        self.power_up.center_x = CONSTANTS.PLAYER_START_X +500  #5250
+        self.power_up.center_y = CONSTANTS.PLAYER_START_Y + 2000 #5800
         self.power_up_list.append(self.power_up)        
 
         # --- Load in a map from the tiled editor ---
@@ -495,9 +495,12 @@ class GameView(arcade.View):
 
         # Loop through each coin we hit (if any) and remove it
         for boost in boost_hit_list:
-
-            # Figure out how many points this coin is worth
-            self.player_sprite.cur_health += 3
+            hp_diff = self.player_sprite.max_health - self.player_sprite.cur_health
+            # how much health do you get
+            if hp_diff  >= 3:
+                self.player_sprite.cur_health += 3
+            else:
+                self.player_sprite.cur_health += hp_diff
 
             # Remove the coin
             boost.remove_from_sprite_lists()
