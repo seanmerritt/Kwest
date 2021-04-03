@@ -600,6 +600,7 @@ class GameOverView(arcade.View):
         """ This is run once when we switch to this view """
         super().__init__()
         self.game_view = game_view
+        self.texture = arcade.load_texture("game_over.jpg")
 
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
@@ -616,18 +617,12 @@ class GameOverView(arcade.View):
         
         arcade.set_viewport(0, WIDTH - 1, 0, HEIGHT - 1)
 
-        arcade.draw_lrtb_rectangle_filled(left=self.game_view.view_left,
-                                          right= CONSTANTS.SCREEN_WIDTH + self.game_view.view_left,
-                                          top=CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom,
-                                          bottom=self.game_view.view_bottom,
-                                          color=arcade.color.BLACK)
-
-        arcade.draw_text("GAME OVER", WIDTH/2, HEIGHT/2+50,
-                         arcade.color.SCARLET, font_size=50, anchor_x="center")
+        self.texture.draw_sized(WIDTH / 2, HEIGHT / 2,
+                                WIDTH, HEIGHT)
 
         arcade.draw_text("Press the Space Bar to reset",
                          WIDTH/2,
-                         HEIGHT/2-30,
+                         HEIGHT/2-80,
                          arcade.color.SCARLET,
                          font_size=20,
                          anchor_x="center")
@@ -637,6 +632,7 @@ class GameOverView(arcade.View):
             game = GameView()
             game.setup()
             self.window.show_view(game)
+
 
 
 
