@@ -686,14 +686,7 @@ class PauseView(arcade.View):
             self.window.show_view(game)
 
 class FinishView(arcade.View):
-    """ View to show when game is over
-    Methods in Class:
-    - wait_for_key(self, key, _modifiers)
-    - __init__(self, game_view, score, killed, game_time)
-    - on_show(self)
-    - on_draw(self)
-    - on_key_press(self, key, _modifiers)
-     """
+    """ View to show when game is over """
 
     #wait for key to be pressed to continue
     def wait_for_key(self, key, _modifiers):
@@ -707,22 +700,19 @@ class FinishView(arcade.View):
     def __init__(self, game_view, score, killed, game_time):
         """ This is run once when we switch to this view """
         super().__init__()
+        self.texture = arcade.load_texture("win_screen.jpg")
         self.game_view = game_view
         self.score = score
         self.killed = killed
         self.game_time = game_time
-        self.you_win_sound = arcade.load_sound(":resources:sounds/secret2.wav")
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
         
 
     def on_show(self):
-        """Establishes the background for the finish screen and play sound"""
-        arcade.set_background_color(arcade.color.WHITE)
-        arcade.play_sound(self.you_win_sound)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
-        """Draws the text of the finish screen"""
         arcade.start_render()
 
         WIDTH = (CONSTANTS.SCREEN_WIDTH + self.game_view.view_left) -  self.game_view.view_left
@@ -730,24 +720,22 @@ class FinishView(arcade.View):
         
         arcade.set_viewport(0, WIDTH - 1, 0, HEIGHT - 1)
 
-        arcade.draw_lrtb_rectangle_filled(left=self.game_view.view_left,
-                                          right= CONSTANTS.SCREEN_WIDTH + self.game_view.view_left,
-                                          top=CONSTANTS.SCREEN_HEIGHT + self.game_view.view_bottom,
-                                          bottom=self.game_view.view_bottom,
-                                          color=arcade.color.BLACK)
+        self.texture.draw_sized(WIDTH / 2, HEIGHT / 2,
+                                WIDTH, HEIGHT)
 
-        arcade.draw_text(f"You won the game!\nYou gathered {self.score} coins,\nkilled {self.killed} enemies,\nand completed the game in {round(self.game_time,2)} seconds.", WIDTH/2, HEIGHT/2+50,
-                         arcade.color.SCARLET, font_size=20, anchor_x="center")
+        arcade.draw_text(f"{self.score}", WIDTH/2, HEIGHT/2-10,arcade.color.GOLD, font_size=40, anchor_x="center")
+
+        arcade.draw_text(f"You killed {self.killed} enemies,\nand completed the game in {round(self.game_time,2)} seconds.", WIDTH/2, HEIGHT/2-110,
+                         arcade.color.GOLD, font_size=20, anchor_x="center")
 
         arcade.draw_text("Press the Space Bar to reset",
                          WIDTH/2,
-                         HEIGHT/2-30,
-                         arcade.color.SCARLET,
+                         HEIGHT/2-115,
+                         arcade.color.GOLD,
                          font_size=20,
                          anchor_x="center")
 
     def on_key_press(self, key, _modifiers):
-        """The game restarts after the SPACE Key is pressed"""
         if key == arcade.key.SPACE:  
             game = GameView()
             game.setup()
