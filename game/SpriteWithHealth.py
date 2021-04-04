@@ -1,10 +1,17 @@
+"""SpriteWithHealt.py: this has the code for all sprites with health (enemies and players)"""
 from game import CONSTANTS
 import arcade
 
 class SpriteWithHealth(arcade.Sprite):
-    """ Sprite with hit points """
+    """ Sprite with hit points
+    Methods in classes:
+    - __init__(self, image, scale, max_health)
+    - draw_health_number(self)
+    - draw_health_bar(self)
+     """
 
     def __init__(self, image, scale, max_health):
+        """draws from other codes and establishes the health status of the sprites"""
         super().__init__(image, scale)
 
         # Add extra attributes for health

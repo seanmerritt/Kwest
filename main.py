@@ -1,3 +1,4 @@
+"""main.py: the central file for the whole game. Utilizes code from the directory and other classes to get the game work"""
 import arcade
 from game import CONSTANTS
 import os
