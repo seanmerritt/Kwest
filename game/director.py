@@ -1,3 +1,13 @@
+"""Directory: This is where most of the code that causes the game to work exists.
+It calls for classes from other files and imports various libraries.
+
+Classes in this file:
+- GameView(arcade.View)
+- GameOverView(arcade.View)
+- PauseView(arcade.View)
+- FinishView(arcade.View)
+ """
+
 import arcade
 from game import CONSTANTS
 import os
@@ -11,10 +21,19 @@ import time
 
 class GameView(arcade.View):
     """
-    Main application class.
+    Main application class. The game runs because of this class.
+
+    Methods in this class:
+    - Constructor (__init__(self))
+    - setup(self)
+    - on_draw(self)
+    - on_key_press(self, key, modifiers)
+    - on_key_release(self, key, modifiers)
+    - on_update(self, delta_time)
     """
 
     def __init__(self):
+        """establishes the variables and resources that the rest of the code will use"""
 
         # Call the parent class and set up the window
         super().__init__()
@@ -73,10 +92,17 @@ class GameView(arcade.View):
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
+        self.more_hp_sound = arcade.load_sound(":resources:sounds/upgrade4.wav")
+        self.PowerUp_sound = arcade.load_sound(":resources:sounds/upgrade5.wav")
         self.game_over = arcade.load_sound(":resources:sounds/gameover1.wav")
+        # self.game_over_sound = arcade.load_sound(":resources:sounds/gameover2.wav")
+        self.enemy_dies_sound = arcade.load_sound(":resources:sounds/error5.wav")
+        self.you_hurt_sound = arcade.load_sound(":resources:sounds/hurt3.wav")
+
 
     def setup(self):
-        """ Set up the game here. Call this function to restart the game. """
+        """ Set up the game here. Call this function to restart the game. 
+        Assigns each variable a starting value"""
 
         # Used to keep track of our scrolling
         self.view_bottom = 0
@@ -123,8 +149,6 @@ class GameView(arcade.View):
 
         # Map name
         map_name = f"adventure_level.tmx"
-        #map_name = f":resources:tmx_maps/map_with_ladders.tmx"
-        # Read in the tiled map
         my_map = arcade.tilemap.read_tmx(map_name)
 
         # Calculate the right edge of the my_map in pixels
@@ -134,11 +158,6 @@ class GameView(arcade.View):
         self.wall_list = arcade.tilemap.process_layer(my_map,
                                                       platforms_layer_name,
                                                       CONSTANTS.TILE_SCALING)
-
-        # -- Moving Platforms
-       # moving_platforms_list = arcade.tilemap.process_layer(my_map, moving_platforms_layer_name, CONSTANTS.TILE_SCALING)
-       # for sprite in moving_platforms_list:
-        #    self.wall_list.append(sprite)
 
         # -- Background objects
         self.background_list = arcade.tilemap.process_layer(my_map, "Background", CONSTANTS.TILE_SCALING)
@@ -153,6 +172,7 @@ class GameView(arcade.View):
         self.enemy_list = enemies(arcade.tilemap.process_layer(my_map,"Enemies", CONSTANTS.TILE_SCALING), 3)
 
         self.finish_list = arcade.tilemap.process_layer(my_map,"Finish", CONSTANTS.TILE_SCALING)
+
         # Set the background color
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
@@ -198,12 +218,6 @@ class GameView(arcade.View):
         score_text = f"Score: {self.score}"
         arcade.draw_text(score_text, 10 + self.view_left, 10 + self.view_bottom,
                          arcade.csscolor.BLACK, 18)
-
-        # Draw hit boxes.
-        # for wall in self.wall_list:
-        #     wall.draw_hit_box(arcade.color.BLACK, 3)
-        #
-        # self.player_sprite.draw_hit_box(arcade.color.RED, 3)
     
     def process_keychange(self):
         """
@@ -222,7 +236,6 @@ class GameView(arcade.View):
                 self.player_sprite.change_y = -CONSTANTS.PLAYER_MOVEMENT_SPEED
 
         # Process up/down when on a ladder and no movement
-        
         if self.physics_engine.is_on_ladder():
             if not self.up_pressed and not self.down_pressed:
                 self.player_sprite.change_y = 0
@@ -257,44 +270,34 @@ class GameView(arcade.View):
             pause = PauseView(self)
             self.window.show_view(pause)
 
+        # the player can shoot after they get the power up item and if they press the SPACE bar
         if (key == arcade.key.SPACE) and (self.can_shoot):
-            # Gunshot sound
-            # arcade.play_sound(self.gun_sound)
-            # Create a bullet
+            #create and place the bullet
             my_bullet = arcade.Sprite(":resources:images/space_shooter/laserRed01.png")
             my_bullet.center_y = self.player_sprite.center_y - 20
 
+            #set the direction the bullet will go
             if self.character_face_direction == "left":
                 my_bullet.center_x = self.player_sprite.center_x - 20
                 my_bullet.angle = 90
-                my_bullet.change_x =  -CONSTANTS.MY_BULLET_SPEED
-                # print(self.character_face_direction)  
+                my_bullet.change_x =  -CONSTANTS.MY_BULLET_SPEED  
             elif self.character_face_direction == "right":
                 my_bullet.center_x = self.player_sprite.center_x + 20
                 my_bullet.angle = -90
                 my_bullet.change_x =  CONSTANTS.MY_BULLET_SPEED
-                # print(self.character_face_direction)
             elif self.character_face_direction == "up":
                 my_bullet.center_x = self.player_sprite.center_x
                 my_bullet.angle = 0
                 my_bullet.change_x = 0
                 my_bullet.change_y = CONSTANTS.MY_BULLET_SPEED
-                # print(self.character_face_direction)
             elif self.character_face_direction == "down":
                 my_bullet.center_x = self.player_sprite.center_x
                 my_bullet.angle = 180
                 my_bullet.change_x = 0
                 my_bullet.change_y = -CONSTANTS.MY_BULLET_SPEED
-                # print(self.character_face_direction)
 
-                 
-
-            # print(f"Bullet angle: {my_bullet.angle:.2f}")   
-
-
+            #add bullet to list so it is drawn when called
             self.my_bullet_list.append(my_bullet)               
-         
-            
 
         self.process_keychange()
 
@@ -314,7 +317,8 @@ class GameView(arcade.View):
         self.process_keychange()
 
     def on_update(self, delta_time):
-        """ Movement and game logic """
+        """ Movement and game logic. 
+        Determines the change that occurs in the game as time progresses and variables change """
 
         #if player health =0 kill them
         if self.player_sprite.cur_health ==0:     
@@ -332,8 +336,6 @@ class GameView(arcade.View):
         self.enemy_list.shoot(self.player_sprite.center_x, self.player_sprite.center_y, self.frame_count, self.bullet_list)
 
         # Get rid of the bullet when it flies off-screen
-
-        
         for bullet in self.bullet_list:
             if bullet.top < 0:
                 bullet.remove_from_sprite_lists()
@@ -361,7 +363,7 @@ class GameView(arcade.View):
             if arcade.check_for_collision(bullet, self.player_sprite):
                 
                 self.player_sprite.cur_health -= 1
-                
+                arcade.play_sound(self.you_hurt_sound)
                 
 
             # If the bullet flies off-screen, remove it.
@@ -380,27 +382,22 @@ class GameView(arcade.View):
 
             #Check this bullet to see if it hit an enemy
             self.enemy_list.check_health()
-
             enemyhit_list = arcade.check_for_collision_with_list(my_bullet, self.enemy_list)
+
             # If it did, get rid of the bullet
-
-
             for enemy in enemyhit_list:
                 if (len(enemyhit_list) > 0) and (not enemy.dead):
                     my_bullet.remove_from_sprite_lists()
                     enemy.cur_health -= 1
                     if (enemy.cur_health <=0) and (not enemy.dead):
                         #creates tombstone sprite when enemy dies
-                        print("Before: ", enemy.dead)
-
-                        #Erik Will Fix this part
                         dead = arcade.Sprite("png/Object/tombstone2.png", 0.3)
                         dead.center_x = enemy.center_x
                         dead.center_y = enemy.center_y+4.5
+                        arcade.play_sound(self.enemy_dies_sound)
                         self.dead_list.append(dead)                            
-
+                        #change state of enemy to dead so your bullets pass through 
                         setattr(enemy,'dead',True)
-                        print("After: ", enemy.dead)
                         self.dead_list.append(enemy)
                         enemy.remove_from_sprite_lists()   
                         del enemy                         
@@ -413,26 +410,13 @@ class GameView(arcade.View):
         self.bullet_list.update()
         self.my_bullet_list.update()
         self.enemy_list.update()
-        self.enemy_list.check_health()
+        # self.enemy_list.check_health()
         
-        
-
-
+        #Allow Player to shoot once they touch the power gem
         if arcade.check_for_collision_with_list(self.player_sprite,self.power_up_list):
             self.can_shoot = True
-            self.power_up.remove_from_sprite_lists()        
-        
-        ## Enemies losing health. I will edit this later for something that actually makes sense. 
-        """
-        for enemy in self.enemy_list:
-            playerhit_list = arcade.check_for_collision_with_list(enemy, self.player_list)
-
-
-            # For every coin we hit, add to the score and remove the coin
-            if arcade.check_for_collision(enemy, self.player_sprite):
-            
-                enemy.cur_health -= 1
-        """
+            self.power_up.remove_from_sprite_lists()   
+            arcade.play_sound(self.PowerUp_sound)     
 
         # Update animations
         if self.physics_engine.can_jump():
@@ -479,21 +463,20 @@ class GameView(arcade.View):
             if self.score%50 ==0:
                 self.player_sprite.max_health += 3
                 self.player_sprite.cur_health = self.player_sprite.max_health
+                arcade.play_sound(self.more_hp_sound)
 
 
             # Remove the coin
             coin.remove_from_sprite_lists()
-            # print(len(coin_hit_list))  #1 coin
-            # print(len(self.coin_list)) #remaining coins
             arcade.play_sound(self.collect_coin_sound)
 
 
 
-                # See if we hit any coins
+        # See if we hit any health boost items
         boost_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                              self.booster_list)
 
-        # Loop through each coin we hit (if any) and remove it
+        # Loop through each health_boost we hit (if any) and remove it
         for boost in boost_hit_list:
             hp_diff = self.player_sprite.max_health - self.player_sprite.cur_health
             # how much health do you get
@@ -502,11 +485,9 @@ class GameView(arcade.View):
             else:
                 self.player_sprite.cur_health += hp_diff
 
-            # Remove the coin
+            # Remove the healt boost item
             boost.remove_from_sprite_lists()
-            # print(len(coin_hit_list))  #1 coin
-            print("Booster count = ",len(self.booster_list)) #remaining coins
-            # arcade.play_sound(self.collect_coin_sound)
+            arcade.play_sound(self.more_hp_sound)
 
         if arcade.check_for_collision_with_list(self.player_sprite,self.finish_list):
             ## Insert won game screen here!
@@ -560,19 +541,6 @@ class GameView(arcade.View):
         if not self.game_over:
             # Move the enemies
             self.enemy_list.update()
-            # print("oh!")
-
-            # # Check each enemy
-            # for enemy in self.enemy_list:
-            #     # If the enemy hit a wall, reverse
-            #     if len(arcade.check_for_collision_with_list(enemy, self.wall_list)) > 0:
-            #         enemy.change_x *= -1
-            #     # If the enemy hit the left boundary, reverse
-            #     elif enemy.boundary_left is not None and enemy.left < enemy.boundary_left:
-            #         enemy.change_x *= -1
-            #     # If the enemy hit the right boundary, reverse
-            #     elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
-            #         enemy.change_x *= -1
 
             # Update the player using the physics engine
             self.physics_engine.update()
@@ -589,6 +557,7 @@ class GameOverView(arcade.View):
 
     #wait for key to be pressed to continue
     def wait_for_key(self, key, _modifiers):
+        """Restarts the game after ENTER key is pressed"""
         if key == arcade.key.ENTER:  # reset game
             game = GameView()
             game.setup()
@@ -597,19 +566,23 @@ class GameOverView(arcade.View):
             
     #flavoring for text
     def __init__(self, game_view):
-        """ This is run once when we switch to this view """
+        """ This runs once when we switch to this view """
         super().__init__()
         self.game_view = game_view
-        self.texture = arcade.load_texture("game_over.jpg")
+        self.game_over_sound = arcade.load_sound(":resources:sounds/gameover2.wav")
+        # self.texture = arcade.load_texture("game_over.jpg")
 
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
         
 
     def on_show(self):
+        """shows black backdrop for endgame screen"""
         arcade.set_background_color(arcade.color.BLACK)
+        arcade.play_sound(self.game_over_sound)
 
     def on_draw(self):
+        """shows text for endgame screen"""
         arcade.start_render()
 
         WIDTH = (CONSTANTS.SCREEN_WIDTH + self.game_view.view_left) -  self.game_view.view_left
@@ -617,8 +590,11 @@ class GameOverView(arcade.View):
         
         arcade.set_viewport(0, WIDTH - 1, 0, HEIGHT - 1)
 
-        self.texture.draw_sized(WIDTH / 2, HEIGHT / 2,
-                                WIDTH, HEIGHT)
+        # self.texture.draw_sized(WIDTH / 2, HEIGHT / 2,
+                                # WIDTH, HEIGHT)
+
+        arcade.draw_text("GAME OVER", WIDTH/2, HEIGHT/2+50,
+                         arcade.color.SCARLET, font_size=50, anchor_x="center")
 
         arcade.draw_text("Press the Space Bar to reset",
                          WIDTH/2,
@@ -628,6 +604,7 @@ class GameOverView(arcade.View):
                          anchor_x="center")
 
     def on_key_press(self, key, _modifiers):
+        """restarts game after SPACE bar is pressed"""
         if key == arcade.key.SPACE:  
             game = GameView()
             game.setup()
@@ -638,13 +615,16 @@ class GameOverView(arcade.View):
 
 class PauseView(arcade.View):
     def __init__(self, game_view):
+        """Constructor"""
         super().__init__()
         self.game_view = game_view
 
     def on_show(self):
+        """Sets the backdrop of the pause screen"""
         arcade.set_background_color(arcade.color.ORANGE)
 
     def on_draw(self):
+        """draws the text for the pause screen"""
         arcade.start_render()
 
         # Draw player, for effect, on pause screen.
@@ -684,6 +664,7 @@ class PauseView(arcade.View):
                          anchor_x="center")
 
     def on_key_press(self, key, _modifiers):
+        """Determines what happenes next based on what button is pressed"""
         if key == arcade.key.ESCAPE:   # resume game
             self.window.show_view(self.game_view)
         elif key == arcade.key.ENTER:  # reset game
@@ -710,14 +691,18 @@ class FinishView(arcade.View):
         self.score = score
         self.killed = killed
         self.game_time = game_time
+        self.you_win_sound = arcade.load_sound(":resources:sounds/secret2.wav")
         # Reset the viewport, necessary if we have a scrolling game and we need
         # to reset the viewport back to the start so we can see what we draw.
         
 
     def on_show(self):
-        arcade.set_background_color(arcade.color.BLACK)
+        """Establishes the background for the finish screen and play sound"""
+        arcade.set_background_color(arcade.color.WHITE)
+        arcade.play_sound(self.you_win_sound)
 
     def on_draw(self):
+        """Draws the text of the finish screen"""
         arcade.start_render()
 
         WIDTH = (CONSTANTS.SCREEN_WIDTH + self.game_view.view_left) -  self.game_view.view_left
@@ -742,6 +727,7 @@ class FinishView(arcade.View):
                          anchor_x="center")
 
     def on_key_press(self, key, _modifiers):
+        """The game restarts after the SPACE Key is pressed"""
         if key == arcade.key.SPACE:  
             game = GameView()
             game.setup()
