@@ -31,13 +31,23 @@ os.chdir(file_path)
 
 
 class MenuView(arcade.View):
+    """The first thing you see once you start the game
+    Methods in Class:
+    - __init__(self)
+    - on_show(self)
+    - on_draw(self)
+    - on_mouse_press(self, _x, _y, _button, _modifiers)
+    """
     def __init__(self):
+        """Constructor, pulls from other codes"""
         super().__init__()
         
     def on_show(self):
+        """Sets background color"""
         arcade.set_background_color(arcade.color.WHITE)
 
     def on_draw(self):
+        """Displays text"""
         arcade.start_render()
         arcade.draw_text("KWEST!", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/2,
                          arcade.color.BLACK, font_size=50, anchor_x="center")
@@ -45,17 +55,29 @@ class MenuView(arcade.View):
                          arcade.color.GRAY, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """Switches to Instruction screen after mouse click"""
         instructions_view = InstructionView()
         self.window.show_view(instructions_view)
 
 
 class InstructionView(arcade.View):
+    """Tells the player how to play the game. Diplays controls, instructions, and story
+    Methods in Class:
+    - __init__(self)
+    - on_show(self)
+    - on_draw(self)
+    - on_mouse_press(self, _x, _y, _button, _modifiers)
+    """
     def __init__(self):
+        """Constructor, pull from other codes"""
         super().__init__()
+
     def on_show(self):
+        """Shows background for instruction page"""
         arcade.set_background_color(arcade.color.ORANGE_PEEL)
 
     def on_draw(self):
+        """Displays text for instruction page"""
         arcade.start_render()
         arcade.draw_text("Instructions", CONSTANTS.SCREEN_WIDTH/2, CONSTANTS.SCREEN_HEIGHT/3* 2,
                          arcade.color.BLACK, font_size=25, anchor_x="center")
@@ -71,17 +93,27 @@ class InstructionView(arcade.View):
                          arcade.color.BLACK, font_size=10, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """Starts game after mouse is clicked"""
         game_view = GameView()
         game_view.setup()
         self.window.show_view(game_view)
 
 
 class GameOverView(arcade.View):
+    """Screen for when player dies
+    Methods in Classes:
+    - __init__(self)
+    - on_show(self)
+    - on_draw(self)
+    - on_mouse_press(self, _x, _y, _button, _modifiers)
+    """
     def __init__(self):
+        """Constructor, pulls from other code and starts time at zero seconds"""
         super().__init__()
         self.time_taken = 0
 
     def on_show(self):
+        """Sets up backdrop for game over screen"""
         arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
@@ -104,5 +136,6 @@ class GameOverView(arcade.View):
         arcade.draw_text(output_total, 10, 10, arcade.color.WHITE, 14)
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """restarts game after mouse is clicked"""
         game_view = GameView()
         self.window.show_view(game_view)

@@ -381,7 +381,6 @@ class GameView(arcade.View):
                 my_bullet.remove_from_sprite_lists()
 
             #Check this bullet to see if it hit an enemy
-            self.enemy_list.check_health()
             enemyhit_list = arcade.check_for_collision_with_list(my_bullet, self.enemy_list)
 
             # If it did, get rid of the bullet
@@ -410,7 +409,6 @@ class GameView(arcade.View):
         self.bullet_list.update()
         self.my_bullet_list.update()
         self.enemy_list.update()
-        # self.enemy_list.check_health()
         
         #Allow Player to shoot once they touch the power gem
         if arcade.check_for_collision_with_list(self.player_sprite,self.power_up_list):
@@ -553,7 +551,13 @@ class GameView(arcade.View):
             
 
 class GameOverView(arcade.View):
-    """ View to show when game is over """
+    """ View to show when game is over
+    Methods in class:
+    - wait_for_key(self, keh, _modifies)
+    - __init__(self, game_view)
+    - on_show(self)"
+    - on_draw(self)
+    - on_draw(self)"""
 
     #wait for key to be pressed to continue
     def wait_for_key(self, key, _modifiers):
@@ -614,6 +618,14 @@ class GameOverView(arcade.View):
 
 
 class PauseView(arcade.View):
+    """
+    Allows the Pause screen to pop up after ESC key is pressed
+    Methods in Class:
+    - __init__(self, game_view)
+    - on_show(self)
+    - on_draw(self)
+    - on_key_press(self, key, _modifiers)
+    """
     def __init__(self, game_view):
         """Constructor"""
         super().__init__()
@@ -673,7 +685,14 @@ class PauseView(arcade.View):
             self.window.show_view(game)
 
 class FinishView(arcade.View):
-    """ View to show when game is over """
+    """ View to show when game is over
+    Methods in Class:
+    - wait_for_key(self, key, _modifiers)
+    - __init__(self, game_view, score, killed, game_time)
+    - on_show(self)
+    - on_draw(self)
+    - on_key_press(self, key, _modifiers)
+     """
 
     #wait for key to be pressed to continue
     def wait_for_key(self, key, _modifiers):

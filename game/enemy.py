@@ -1,10 +1,21 @@
+"""Enemy.py: file that contains the "enemy" class (only class in the file)
+Over time, the enemies get smart after you start wiping a number of them out and try to use their invisibility powers. """
 import arcade
 from game.SpriteWithHealth import SpriteWithHealth
 from game import CONSTANTS
 import math
 
 class enemies(arcade.SpriteList):
+    """Contains code for the enemy sprites
+    Methods in Class:
+    - __init__(self, enemy_list, max_health)
+    - shoot(self, player_x, player_y, frame_count, bullet_list)
+    - draw_health_number(self)
+    - draw_health_bar(self)
+    """
     def __init__(self, enemy_list, max_health):
+        """Constructor for the enemy class.
+        """
         super().__init__()
         
         self.__shooting = False
@@ -18,6 +29,7 @@ class enemies(arcade.SpriteList):
         
 
     def shoot(self, player_x, player_y, frame_count, bullet_list):
+        """Establishes Enemy shooting code"""
         for enemy in self.sprite_list:
             start_x = enemy.center_x
             start_y = enemy.center_y
@@ -83,22 +95,3 @@ class enemies(arcade.SpriteList):
                                         width=health_width,
                                         height=CONSTANTS.HEALTHBAR_HEIGHT,
                                         color=arcade.color.GREEN)   
-
-    def check_health(self):
-        for enemy in self.enemy_list:
-            if (enemy.cur_health == 0):
-                enemy.remove_from_sprite_lists()
-                del enemy
-                
-                # len(self.enemy_list) - 1
-                # enemy.remove_from(self.enemy_list)
-                # enemyhit_list.remove_from_lists()
-                
-                # print(enemy)
-                print("help")
-                print(len(self.sprite_list))
-                # enemyhit_list.update()
-                # print(self.enemy_list)
-                # for enemy in self.enemy_list:
-                #     if arcade.check_for_collision_with_list(enemy,self.my_bullet_list):
-                #         enemy.remove_from_sprite_lists()
