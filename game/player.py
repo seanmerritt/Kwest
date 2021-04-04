@@ -1,6 +1,10 @@
+"""Player.py: this file contains the 'player' class. (only class in file)
+It would've been cool if the player could select which character they wanted play as, 
+but we didn't think of that idea in time. So the player sprite is randomly dealt."""
 from game.SpriteWithHealth import SpriteWithHealth
 import arcade
 from game import CONSTANTS
+import random
 
 def load_texture_pair(filename):
     """
@@ -12,8 +16,17 @@ def load_texture_pair(filename):
     ]
 
 class Player(arcade.Sprite):
-    """ Player Sprite"""
+    """ Player Sprite
+    Methods in Class:
+    - __init__(self, max_health)
+    - update_animation(self, delta_time: float = 1/60)
+    - draw_health_number(self)
+    - draw_health_bar(self)
+    - check_life(self)
+    - get_death(self)
+    """
     def __init__(self, max_health):
+        """Constructor, establishes intial code for the player Sprite"""
         super().__init__()
 
         # Add extra attributes for health
@@ -36,12 +49,15 @@ class Player(arcade.Sprite):
         # --- Load Textures ---
 
         # Images from Kenney.nl's Asset Pack 3
-        # main_path = ":resources:images/animated_characters/female_adventurer/femaleAdventurer"
-        # main_path = ":resources:images/animated_characters/female_person/femalePerson"
-        main_path = ":resources:images/animated_characters/male_person/malePerson"
-        # main_path = ":resources:images/animated_characters/male_adventurer/maleAdventurer"
-        # main_path = ":resources:images/animated_characters/zombie/zombie"
-        # main_path = ":resources:images/animated_characters/robot/robot"
+        characters_List = []
+        characters_List.append(":resources:images/animated_characters/female_adventurer/femaleAdventurer")
+        characters_List.append(":resources:images/animated_characters/female_person/femalePerson")
+        characters_List.append(":resources:images/animated_characters/male_person/malePerson")
+        characters_List.append(":resources:images/animated_characters/male_adventurer/maleAdventurer")
+        characters_List.append(":resources:images/animated_characters/zombie/zombie")
+        characters_List.append(":resources:images/animated_characters/robot/robot")
+
+        main_path = characters_List[random.randrange(0,5)]
 
         # Load textures for idle standing
         self.idle_texture_pair = load_texture_pair(f"{main_path}_idle.png")
@@ -71,6 +87,7 @@ class Player(arcade.Sprite):
         self.set_hit_box(self.texture.hit_box_points)
 
     def update_animation(self, delta_time: float = 1/60):
+        """Determins the animation of the player Sprite based on certain conditions"""
 
         # Figure out if we need to flip face left or right
         if self.change_x < 0 and self.character_face_direction == CONSTANTS.RIGHT_FACING:
@@ -143,8 +160,10 @@ class Player(arcade.Sprite):
                                      color=arcade.color.GREEN)
 
     def check_life(self):
+        """determinds if the player Sprite is still alive"""
         if self.cur_health < 1:
             self.__death = True
 
     def get_death(self):
+        """The player sprite is dead"""
         return self.__death
