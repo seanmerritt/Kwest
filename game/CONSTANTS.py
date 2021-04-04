@@ -1,7 +1,7 @@
 # Constants
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 650
-SCREEN_TITLE = "Platformer"
+SCREEN_TITLE = "KWEST"
 
 # Constants used to scale our sprites from their original size
 CHARACTER_SCALING = 1
@@ -14,7 +14,7 @@ SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 SPRITE_SCALING = 0.5
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 15
+PLAYER_MOVEMENT_SPEED = 30
 GRAVITY = 1
 PLAYER_JUMP_SPEED = 20
 

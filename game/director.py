@@ -98,6 +98,7 @@ class GameView(arcade.View):
         # self.game_over_sound = arcade.load_sound(":resources:sounds/gameover2.wav")
         self.enemy_dies_sound = arcade.load_sound(":resources:sounds/error5.wav")
         self.you_hurt_sound = arcade.load_sound(":resources:sounds/hurt3.wav")
+        self.enemy_shoots_sound = arcade.load_sound(":resources:sounds/jump5.wav")
 
 
     def setup(self):
