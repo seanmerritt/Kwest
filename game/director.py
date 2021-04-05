@@ -730,7 +730,7 @@ class FinishView(arcade.View):
 
         arcade.draw_text("Press the Space Bar to reset",
                          WIDTH/2,
-                         HEIGHT/2-115,
+                         HEIGHT/2-125,
                          arcade.color.GOLD,
                          font_size=20,
                          anchor_x="center")
